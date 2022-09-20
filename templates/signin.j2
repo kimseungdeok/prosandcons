@@ -16,15 +16,15 @@
     </title>
     </head>
     <body>
-    <div>
-    <div class="form-group">
-        <input type="text" class="form-control" id="inputID" placeholder="ID">
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control" id="inputPassword" placeholder="비밀번호">
-    </div>
-    <button type="submit" class="btn btn-primary">로그인</button>
-    <button type="submit" class="btn btn-primary">회원가입</button>
-    </div>
+    <form method="POST" action="login">
+        <div class="form-group">
+            <input type="text" class="form-control" name="id" placeholder="ID">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="pw" placeholder="비밀번호">
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+    <button type="submit" onclick="location.href='signup'" class="btn btn-primary">회원가입</button>
     </body>
 </html>

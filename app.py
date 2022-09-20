@@ -7,6 +7,7 @@ from pymongo import MongoClient
 import dto
 
 app = Flask(__name__)
+app.config['MAX-CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 client = MongoClient('mongodb://15.164.217.239', 27017, username="root", password="root")
 db = client.prosncons
@@ -15,39 +16,46 @@ db = client.prosncons
 @app.route('/', methods=['GET'])
 def get_main_page():
     now = datetime.datetime.now()
-    return render_template('test.j2', current_time=now)
+    return render_template('signin.j2', current_time=now)
 
 
 @app.route('/login', methods=['POST'])
 def login():
-    response = make_response()
-    return response
+    id = request.form['id']
+    pw = request.form['pw']
+    encoded_pw = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    pw_from_db = ""
+    for x in db.users.find({"id": id}, {"pw": 1}):
+        pw_from_db = x['pw']
+    if encoded_pw == pw_from_db:
+        # 여기에 JWT or 쿠키 추가
+        return render_template("users.j2")
 
 
 @app.route('/main', methods=['GET'])
 def main():
     now = "main"
-    return render_template('test.j2', current_time=now)
+    return render_template('signin.j2', current_time=now)
 
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == 'GET':
-        print("this is sign-up GET log")
+        # print("this is sign-up GET log")
         return render_template('signup.j2')
     # 여기서 부터는 POST 로직
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)
     # AWS S3로 이미지 URL 생성 필요
     user = {
-        'id': str(uuid.uuid4()),
-        'userId': request_dto.id,
+        'uuid': str(uuid.uuid4()),
+        'id': request_dto.id,
         'pw': request_dto.password,
         'gisu': request_dto.gisu,
         'ban': request_dto.ban,
     }
     db.users.insert_one(user)
-    return render_template('prosandcons_register.j2', id=user['id'])
+    return render_template('prosandcons_register.j2', id=user['uuid'])
 
 
 def get_user_request_dto(hash_pw):
@@ -62,7 +70,7 @@ def post_pros_and_cons():
     pros_request_dto = get_pros_request_dto()
     cons_request_dto = get_cons_request_dto()
     pros = {
-        'id': id,#FK 역할 수행
+        'id': id,  # FK 역할 수행
         'first': pros_request_dto.first,
         'second': pros_request_dto.second,
         'third': pros_request_dto.third,
@@ -80,7 +88,7 @@ def post_pros_and_cons():
     db.pros.insert_one(pros)
     db.cons.insert_one(cons)
 
-    return render_template('test.j2')
+    return render_template('signin.j2')
 
 
 def get_pros_request_dto():
@@ -102,19 +110,19 @@ def get_cons_request_dto():
 @app.route('/users', methods=['GET'])
 def get_users():
     now = "users"
-    return render_template('test.j2', current_time=now)
+    return render_template('signin.j2', current_time=now)
 
 
 @app.route('/user/<id>', methods=['PATCH'])
 def update_user():
     now = "users"
-    return render_template('test.j2', current_time=now)
+    return render_template('signin.j2', current_time=now)
 
 
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_user():
     now = "users"
-    return render_template('test.j2', current_time=now)
+    return render_template('signin.j2', current_time=now)
 
 
 if __name__ == '__main__':
