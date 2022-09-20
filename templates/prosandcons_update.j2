@@ -15,19 +15,29 @@
                 margin: 0 auto;
                 margin-top: 12.5%;
             }
+            .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
             .title{
                 padding-bottom: 50px;
+            }
+            .withdrawal-btn{
+                background-color: gray;
+                color: white;
+                border-radius: 8px;
             }
             .row {
                 padding-top: 30px;
             }
             .pros {
-                background-color: rgba(121, 183, 153, 0.8);
+                background-color: rgba(121, 183, 153, 0.8);;
             }
             .cons {
                 background-color: rgba(255, 75, 82, 0.8);
             }
-            .btn {
+            .edit-btn {
                 margin-top: 30px;
                 background-color:rgb(121, 183, 153);
                 color: white;
@@ -43,27 +53,50 @@
         </style>
 
         <title>
-            prosandcons - 장단점 입력 페이지
+            prosandcons - 장단점 수정 페이지
     </title>
     </head>
     <body>
     <div class="container">
-        <div class="title center">
-            <h1>당신이 생각하는 강한 성향 순서대로 적어주세요</h1>
+        <div class="header">
+            <div class="title">
+                <h1>당신이 생각하는 강한 성향 순서대로 적어주세요</h1>
+            </div>
+            <div class="withdrawal">
+                <button type="button" class="withdrawal-btn btn" data-toggle="modal" data-target="#withdrawalModal">회원탈퇴</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="withdrawalModal" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="withdrawalModalLabel">회원탈퇴</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            정말 탈퇴하시겠습니까?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+                            <button type="button" class="btn btn-danger">예</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <form action="user" method="post">
-
             <div class="prosandcons">
-                <input type="hidden" name="user_id" value="{{id}}">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">1순위</label>
                     <div class="col">
                         <input type="text" class="form-control pros" name="pro_first" placeholder="첫번째 장점">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="con_first" placeholder="첫번째 단점">
+                        <input type="text" class="form-control cons" name="pro_first" placeholder="첫번째 단점">
                     </div>
-
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">2순위</label>
@@ -103,12 +136,12 @@
                 </div>
             
             </div>
-
             <div class="center">
-                <button type="submit" class="btn">제출</button>
-
+                <button type="submit" class="edit-btn btn">수정</button>
             </div>
         </form>
     </div>
+
+    
     </body>
 </html>
