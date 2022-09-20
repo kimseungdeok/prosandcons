@@ -1,0 +1,48 @@
+<html>
+    <head>
+         <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+        <title>
+        회원가입 페이지
+    </title>
+    </head>
+    <body>
+    <div>
+        <form action="signup" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" name="id" placeholder="ID">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="pw" placeholder="비밀번호">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="gisu" placeholder="기수">
+            </div>
+            <div class="form-group">
+                <label>
+                    <select name="ban" class="form-control">
+                        <option value="A">A반</option>
+                        <option value="B">B반</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="imgUrl" placeholder="사진" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">다음</button>
+        </form>
+    </div>
+    <div>
+    </div>
+
+    </body>
+</html>
