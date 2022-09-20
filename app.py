@@ -1,17 +1,15 @@
+import hashlib
 from flask import Flask, render_template, make_response, request
 import datetime
+import uuid
+from pymongo import MongoClient
+
 import dto
 
 app = Flask(__name__)
 
-
-class User:
-    def __init__(self, name, password, gisu, ban, image):
-        self.name = name
-        self.password = password
-        self.gisu = gisu
-        self.ban = ban
-        self.image = image
+client = MongoClient('mongodb://15.164.217.239', 27017, username="root", password="root")
+db = client.prosncons
 
 
 @app.route('/', methods=['GET'])
@@ -38,24 +36,32 @@ def signup():
         print("this is sign-up GET log")
         return render_template('signup.j2')
     # 여기서 부터는 POST 로직
-    request_dto = dto.UserSignupRequestDto(request.form["id"], request.form["pw"], request.form["gisu"],
+    hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
+    request_dto = dto.UserSignupRequestDto(request.form["id"], hash_pw, request.form["gisu"],
                                            request.form["ban"], request.form["imgUrl"])
-    print(request_dto.id)
-    print(request_dto.password)
-    print(request_dto.gisu)
-    print(request_dto.ban)
-    print(request_dto.imgUrl)
-    return render_template('prosAndCons.j2')
+    # AWS S3로 이미지 URL 생성 필요
+
+    user = {
+        'id': str(uuid.uuid4()),
+        'userId': request_dto.id,
+        'pw': request_dto.password,
+        'gisu': request_dto.gisu,
+        'ban': request_dto.ban,
+        'pros': None,
+        'cons': None,
+    }
+    db.users.insert_one(user)
+    return render_template('prosandcons_register.j2', id=user['id'])
 
 
-@app.route('/users', methods=['GET'])
-def get_users():
+@app.route('/user', methods=['POST'])
+def post_prosncons():
     now = "users"
     return render_template('test.j2', current_time=now)
 
 
-@app.route('/user/<id>', methods=['POST'])
-def post_prosncons():
+@app.route('/users', methods=['GET'])
+def get_users():
     now = "users"
     return render_template('test.j2', current_time=now)
 
