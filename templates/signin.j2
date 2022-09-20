@@ -10,21 +10,53 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
+        <style>
+            .container {
+                margin: 0 auto;
+                width: 80%;
+                border-radius: 15px;
+                padding: 15px;
+                margin-top: 12.5%;
+            }
+            .title {
+                text-align: center;
+                padding: 50px;
+            }
+            .submit-btn {
+                display: flex;
+                justify-content: center;
+            }
+            .btn {
+                background-color:rgb(121, 183, 153);
+                color: white;
+            }
+            .input-size{
+                width: 70%;
+                margin: 0 auto;
+            }
+        </style>
         
         <title>
-        prosandcons
+            prosandcons - 로그인 페이지
     </title>
     </head>
     <body>
-    <form method="POST" action="login">
-        <div class="form-group">
-            <input type="text" class="form-control" name="id" placeholder="ID">
+        <div class="container">
+            <h1 class="title">너의 장단점은</h1>
+            <form method="POST" action="login">
+                <div class="form-group">
+                    <input type="text" class="form-control input-size" name="id" placeholder="ID">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control input-size" name="pw" placeholder="비밀번호">
+                </div>
+                <div class="submit-btn">
+                    <button type="submit" class="btn">로그인</button>
+                </div>
+            </form>
+            <div class="submit-btn">
+                <button type="submit" onclick="location.href='signup'" class="btn">회원가입</button>
+            </div>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name="pw" placeholder="비밀번호">
-        </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
-    </form>
-    <button type="submit" onclick="location.href='signup'" class="btn btn-primary">회원가입</button>
     </body>
 </html>
