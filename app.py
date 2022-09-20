@@ -37,27 +37,66 @@ def signup():
         return render_template('signup.j2')
     # 여기서 부터는 POST 로직
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
-    request_dto = dto.UserSignupRequestDto(request.form["id"], hash_pw, request.form["gisu"],
-                                           request.form["ban"], request.form["imgUrl"])
+    request_dto = get_user_request_dto(hash_pw)
     # AWS S3로 이미지 URL 생성 필요
-
     user = {
         'id': str(uuid.uuid4()),
         'userId': request_dto.id,
         'pw': request_dto.password,
         'gisu': request_dto.gisu,
         'ban': request_dto.ban,
-        'pros': None,
-        'cons': None,
     }
     db.users.insert_one(user)
     return render_template('prosandcons_register.j2', id=user['id'])
 
 
+def get_user_request_dto(hash_pw):
+    request_dto = dto.UserSignupRequestDto(request.form["id"], hash_pw, request.form["gisu"],
+                                           request.form["ban"], request.form["imgUrl"])
+    return request_dto
+
+
 @app.route('/user', methods=['POST'])
-def post_prosncons():
-    now = "users"
-    return render_template('test.j2', current_time=now)
+def post_pros_and_cons():
+    id = request.form["user_id"]
+    pros_request_dto = get_pros_request_dto()
+    cons_request_dto = get_cons_request_dto()
+    pros = {
+        'id': id,#FK 역할 수행
+        'first': pros_request_dto.first,
+        'second': pros_request_dto.second,
+        'third': pros_request_dto.third,
+        'fourth': pros_request_dto.fourth,
+        'fifth': pros_request_dto.fifth,
+    }
+    cons = {
+        'id': id,  # FK 역할 수행
+        'first': cons_request_dto.first,
+        'second': cons_request_dto.second,
+        'third': cons_request_dto.third,
+        'fourth': cons_request_dto.fourth,
+        'fifth': cons_request_dto.fifth,
+    }
+    db.pros.insert_one(pros)
+    db.cons.insert_one(cons)
+
+    return render_template('test.j2')
+
+
+def get_pros_request_dto():
+    pros_request_dto = dto.ProsRequestDto(
+        request.form["pro_first"], request.form["pro_second"],
+        request.form["pro_third"], request.form["pro_fourth"],
+        request.form["pro_fifth"], )
+    return pros_request_dto
+
+
+def get_cons_request_dto():
+    cons_request_dto = dto.ConsRequestDto(
+        request.form["con_first"], request.form["con_second"],
+        request.form["con_third"], request.form["con_fourth"],
+        request.form["con_fifth"], )
+    return cons_request_dto
 
 
 @app.route('/users', methods=['GET'])

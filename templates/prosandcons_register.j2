@@ -19,6 +19,7 @@
     <div>
         <form action="user" method="post">
             <div>
+                <input type="hidden" name="user_id" value="{{id}}">
                 <div class="form-group">
                     <input type="text" class="form-control" name="pro_first" placeholder="첫번째 장점">
                 </div>
@@ -37,19 +38,19 @@
             </div>
             <div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="pro_first" placeholder="첫번째 단점">
+                    <input type="text" class="form-control" name="con_first" placeholder="첫번째 단점">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="pro_second" placeholder="두번째 단점">
+                    <input type="text" class="form-control" name="con_second" placeholder="두번째 단점">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="pro_third" placeholder="세번째 단점">
+                    <input type="text" class="form-control" name="con_third" placeholder="세번째 단점">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="pro_fourth" placeholder="네번째 단점">
+                    <input type="text" class="form-control" name="con_fourth" placeholder="네번째 단점">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="pro_fifth" placeholder="다섯번째 단점">
+                    <input type="text" class="form-control" name="con_fifth" placeholder="다섯번째 단점">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">제출</button>
