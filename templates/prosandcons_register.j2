@@ -52,15 +52,18 @@
             <h1>당신이 생각하는 강한 성향 순서대로 적어주세요</h1>
         </div>
         <form action="user" method="post">
+
             <div class="prosandcons">
+                <input type="hidden" name="user_id" value="{{id}}">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">1순위</label>
                     <div class="col">
                         <input type="text" class="form-control pros" name="pro_first" placeholder="첫번째 장점">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="pro_first" placeholder="첫번째 단점">
+                        <input type="text" class="form-control cons" name="con_first" placeholder="첫번째 단점">
                     </div>
+
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">2순위</label>
@@ -100,8 +103,10 @@
                 </div>
             
             </div>
+
             <div class="center">
                 <button type="submit" class="btn">제출</button>
+
             </div>
         </form>
     </div>
