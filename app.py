@@ -36,6 +36,8 @@ def login():
     pw_from_db = ""
     for x in db.users.find({"id": id}, {"pw": 1}):
         pw_from_db = x['pw']
+    if len(pw_from_db) == 0:
+        return make_response("존재하지 않는 유저입니다.", 400)
     if encoded_pw == pw_from_db:
         # 여기에 JWT or 쿠키 추가
         response = make_response(render_template("main.j2"))
