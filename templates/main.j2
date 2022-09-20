@@ -14,11 +14,31 @@
             .container {
                 margin: 0 auto;
             }
+            .header {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              margin-top: 50px;
+              margin-bottom: 50px;
+              margin-left: -30px;
+            }
             .title{
-                margin-top: 50px;
-                margin-bottom: 50px;
-                margin-left: -30px;
                 font-weight: bolder;
+            }
+            .logout-btn{
+              background-color: gray;
+              border-radius: 8px;
+              color: white;
+              margin-right: 10px;
+            }
+            .setting-btn img{
+              border-radius: 50%;
+              width: 35px;
+              height: 35px;
+            }
+            .main-btn-group{
+              display: flex;
+              flex-direction: row;
             }
             .pros {
                 background-color:rgba(121, 183, 153, 0.5);
@@ -46,8 +66,20 @@
     </head>
     <body>
         <div class="container">
-            <div class="title">
-                <h1>너의 장단점은</h1>
+            <div class="header">
+              <div class="title">
+                  <h1>너의 장단점은</h1>
+              </div>
+              <div class="main-btn-group">
+                <div class="logout">
+                  <form action="logout" method="post">
+                    <button type="button" class="logout-btn btn">로그아웃</button>
+                  </form>
+                </div>
+                <div class="setting-btn">
+                  <a href="/templates/prosandcons_update.html"><img src="../static/defaultImage.png"></a>
+                </div>
+              </div>
             </div>
             <div class="card-columns">
                 <div class="card">
