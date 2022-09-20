@@ -1,16 +1,25 @@
 import hashlib
-from flask import Flask, render_template, make_response, request
+from flask import Flask, render_template, request, jsonify, make_response
 import datetime
 import uuid
 from pymongo import MongoClient
+from flask_jwt_extended import *
 
+import config
 import dto
 
 app = Flask(__name__)
-app.config['MAX-CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config.update(
+    DEBUG=True,
+    JWT_SECRET_KEY=config.JWT_SECRET_KEY
+)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=15)
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_SECURE"] = False
 
 client = MongoClient('mongodb://15.164.217.239', 27017, username="root", password="root")
 db = client.prosncons
+jwt = JWTManager(app)
 
 
 @app.route('/', methods=['GET'])
@@ -29,7 +38,32 @@ def login():
         pw_from_db = x['pw']
     if encoded_pw == pw_from_db:
         # 여기에 JWT or 쿠키 추가
-        return render_template("users.j2")
+        response = make_response(render_template("main.j2"))
+        access_token = create_access_token(identity=id)
+        set_access_cookies(response, access_token)
+        return response
+    return make_response("비밀번호가 일치하지 않습니다.", 400)
+
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.datetime.now(datetime.timezone.utc)
+        target = datetime.datetime.timestamp(now + datetime.timedelta(minutes=30))
+        if target > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except(RuntimeError, KeyError):
+        return response
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
 
 
 @app.route('/main', methods=['GET'])
