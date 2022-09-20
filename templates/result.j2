@@ -1,0 +1,99 @@
+<html>
+    <head>
+         <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <!-- chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+
+        <style>
+            .container {
+                display: flex;
+                justify-content: center;
+                padding-top: 12.5%;
+            }
+            .prosandcons{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+        </style>
+
+        <title>
+            prosandcons - 결과 페이지
+    </title>
+    </head>
+    <body>
+    <div class="container">
+        <div class="title">
+            <h1>OOO님의 장단점 결과 화면입니다.</h1>
+        </div>
+    </div>
+    <div class="prosandcons">
+        <div class="pros" style="width: 500px; height: 500px">
+            <canvas id="pros-chart"></canvas>
+        </div>
+        <div class="cons" style="width: 500px; height: 500px">
+            <canvas id="cons-chart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        new Chart(document.getElementById("pros-chart"), {
+        type: 'radar',
+        data: {
+        labels: ["적극적", "적극적", "적극적", "적극적", "적극적"],
+        datasets: [
+            {
+                label: "장점",
+                fill: true,
+                backgroundColor: "rgba(121, 183, 153, 0.2)",
+                borderColor: "rgba(121, 183, 153, 1)",
+                pointBorderColor: "#fff",
+                pointBackgroundColor: "rgba(121, 183, 153, 1)",
+                data: [5,3,1,2,4]
+            }
+        ]
+        },
+        options: {
+        title: {
+            display: true,
+            text: '장점'
+        }
+        }
+    });
+
+        new Chart(document.getElementById("cons-chart"), {
+            type: 'radar',
+            data: {
+            labels: ["급함", "급함", "급함", "급함", "급함"],
+            datasets: [
+                {
+                    label: "단점",
+                    fill: true,
+                    backgroundColor: "rgba(255, 75, 82, 0.2)",
+                    borderColor: "rgba(255, 75, 82, 1)",
+                    pointBorderColor: "#fff",
+                    pointBackgroundColor: "rgba(255, 75, 82, 1)",
+                    data: [1,2,3,4,5]
+                }
+            ]
+            },
+            options: {
+            title: {
+                display: true,
+                text: '단점'
+            }
+            }
+        });
+    </script>
+    </body>
+</html>
