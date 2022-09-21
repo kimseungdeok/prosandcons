@@ -293,9 +293,9 @@ def update_cons(find_user_info, target_uuid, update_request_dto):
 
 
 @app.route('/user/<id>', methods=['DELETE'])
-def delete_user():
-    now = "users"
-    return render_template('signin.j2', current_time=now)
+def delete_user(id):
+    db.users.delete_one({'id':id})
+    return render_template('signin.j2')
 
 
 if __name__ == '__main__':
