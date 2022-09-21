@@ -87,51 +87,51 @@
                 </div>
             </div>
         </div>
-        <form action="user" method="post">
+        <form action="update" method="post">
             <div class="prosandcons">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">1순위</label>
                     <div class="col">
-                        <input type="text" class="form-control pros" name="pro_first" placeholder="첫번째 장점">
+                        <input type="text" class="form-control pros" name="pro_first" value="{{ pros["first"] }}">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="pro_first" placeholder="첫번째 단점">
+                        <input type="text" class="form-control cons" name="pro_first" value="{{ cons["first"] }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">2순위</label>
                     <div class="col">
-                        <input type="text" class="form-control pros" name="pro_second" placeholder="두번째 장점">
+                        <input type="text" class="form-control pros" name="pro_second" value="{{ pros["second"] }}">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="con_second" placeholder="두번째 단점">
+                        <input type="text" class="form-control cons" name="con_second" value="{{ cons["second"] }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">3순위</label>
                     <div class="col">
-                        <input type="text" class="form-control pros" name="pro_third" placeholder="세번째 장점">
+                        <input type="text" class="form-control pros" name="pro_third" value="{{ pros["third"] }}">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="con_third" placeholder="세번째 단점">
+                        <input type="text" class="form-control cons" name="con_third" value="{{ cons["third"] }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">4순위</label>
                     <div class="col">
-                        <input type="text" class="form-control pros" name="pro_fourth" placeholder="네번째 장점">
+                        <input type="text" class="form-control pros" name="pro_fourth" value="{{ pros["fourth"] }}">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="con_fourth" placeholder="네번째 단점">
+                        <input type="text" class="form-control cons" name="con_fourth" value="{{ cons["fourth"] }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">5순위</label>
                     <div class="col">
-                        <input type="text" class="form-control pros" name="pro_fifth" placeholder="다섯번째 장점">
+                        <input type="text" class="form-control pros" name="pro_fifth" value="{{ pros["fifth"] }}">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control cons" name="con_fifth" placeholder="다섯번째 단점">
+                        <input type="text" class="form-control cons" name="con_fifth" value="{{ cons["fifth"] }}">
                     </div>
                 </div>
             

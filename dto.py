@@ -57,6 +57,7 @@ class UserResponseDto:
 
 @dc.dataclass(unsafe_hash=True)
 class UserDetailResponseDto:
+    name: str
     first_pro: str
     second_pro: str
     third_pro: str
@@ -71,6 +72,9 @@ class UserDetailResponseDto:
     # Default Constructor
     def __init__(self):
         return
+
+    def set_name(self,name):
+        self.name = name
 
     def set_pros(self, first, second, third, fourth, fifth):
         self.first_pro = first

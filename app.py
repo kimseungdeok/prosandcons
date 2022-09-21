@@ -6,7 +6,6 @@ from config import *
 from werkzeug.utils import secure_filename
 import datetime
 import uuid
-from pymongo import MongoClient
 from flask_jwt_extended import *
 
 import config
@@ -17,7 +16,7 @@ app.config.update(
     DEBUG=True,
     JWT_SECRET_KEY=config.JWT_SECRET_KEY
 )
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=15)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=12)
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_SECURE"] = False
 
@@ -92,13 +91,13 @@ def signup():
     file_name = secure_filename(f.filename)
     f.save(file_name)
     file_path = file_name
-    file_name = 'profile/'+ request_dto.id
+    file_name = 'profile/' + request_dto.id
     content_type = f.content_type
-    data = open(file_path,'rb')
+    data = open(file_path, 'rb')
     s3_connection().Bucket(BUCKET_NAME).put_object(
-                Key = file_name,
-                Body = data,
-                ContentType= content_type)
+        Key=file_name,
+        Body=data,
+        ContentType=content_type)
     img_url = f"https://{BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/{file_name}"
     request_dto.set_url(img_url)
 
@@ -168,6 +167,7 @@ def get_cons_request_dto():
 
 
 @app.route('/users', methods=['GET'])
+@jwt_required()
 def get_users():
     # 모든 User 불러오기 => 해당 유저의 UUID, 이름, 기수 불러오기
     global user_response_dto
@@ -191,8 +191,11 @@ def get_users():
 
 
 @app.route('/user/<id>', methods=['GET'])
+@jwt_required()
 def get_user_detail(id):
     response_dto = dto.UserDetailResponseDto()
+    db.users.find_one({"uuid": id}, {"name"})
+
     for x in db.pros.find({"id": id}, {
         "first": 1,
         "second": 1,
@@ -211,6 +214,41 @@ def get_user_detail(id):
         response_dto.set_cons(x["first"], x["second"], x["third"], x["fourth"], x["fifth"])
     print(response_dto)
     return render_template('result.j2', data=response_dto)
+
+
+@app.route('/update', methods=['GET', 'POST'])
+@jwt_required()
+def update_user():
+    id = get_jwt_identity()
+    find_user = db.users.find_one({"id": id}, {"uuid": 1})
+    target_uuid = find_user["uuid"]
+    pros = db.pros.find_one({"id": target_uuid}, {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1})
+    cons = db.cons.find_one({"id": target_uuid}, {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1})
+    if request.method == 'GET':
+        response = make_response(render_template("prosandcons_update.j2", pros=pros, cons=cons))
+        return response
+
+    if request.form['pro_first'] not in pros.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['pro_first']}})
+    if request.form['pro_second'] not in pros.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['pro_second']}})
+    if request.form['pro_third'] not in pros.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['pro_third']}})
+    if request.form['pro_fourth'] not in pros.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['pro_fourth']}})
+    if request.form['pro_fifth'] not in pros.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['pro_fifth']}})
+
+    if request.form['con_first'] not in cons.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
+    if request.form['con_second'] not in cons.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
+    if request.form['con_third'] not in cons.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
+    if request.form['con_fourth'] not in cons.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
+    if request.form['con_fifth'] not in cons.values:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
 
 
 @app.route('/user/<id>', methods=['DELETE'])
