@@ -173,9 +173,9 @@ def get_users():
     global user_response_dto
     target_uuid_list = []
     user_dto_list = []
-    for x in db.users.find({}, {"uuid": 1, "ban": 1, "name": 1}):
+    for x in db.users.find({}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
         target_uuid_list.append(x["uuid"])
-        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], "", "", "", "", "")
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
         user_dto_list.append(user_response_dto)
 
     current_users_num = len(target_uuid_list)

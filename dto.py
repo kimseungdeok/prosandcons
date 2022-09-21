@@ -43,6 +43,9 @@ class UserResponseDto:
     first_con: str
     second_con: str
 
+    def set_img_url(self,url):
+        self.imgUrl = url
+
     def set_pros(self, first, second):
         self.first_pro = first
         self.second_pro = second
