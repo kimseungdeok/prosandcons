@@ -6,9 +6,12 @@ class UserSignupRequestDto:
     id: str
     password: str
     gisu: str
-    ban: int
+    ban: str
     imgUrl: str
     name: str
+
+    def set_url(self, imgUrl):
+        self.imgUrl = imgUrl
 
 
 @dc.dataclass(unsafe_hash=True)
@@ -79,3 +82,5 @@ class UserDetailResponseDto:
         self.third_con = third
         self.fourth_con = fourth
         self.fifth_con = fifth
+
+
