@@ -291,10 +291,12 @@ def update_cons(find_user_info, target_uuid, update_request_dto):
         db.cons.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
 
 
-@app.route('/user/<id>', methods=['DELETE'])
-def delete_user(id):
+@app.route('/user', methods=['DELETE'])
+@jwt_required()
+def delete_user():
+    id = get_jwt_identity()
     db.users.delete_one({'id':id})
-    return render_template('signin.j2')
+    return jsonify ({'result': 'success'})
 
 
 if __name__ == '__main__':
