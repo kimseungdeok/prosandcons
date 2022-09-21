@@ -215,8 +215,7 @@ def get_users():
 @jwt_required()
 def get_user_detail(id):
     response_dto = dto.UserDetailResponseDto()
-    db.users.find_one({"uuid": id}, {"name"})
-
+    name = db.users.find_one({"uuid": id}, {"name"})['name']
     for x in db.pros.find({"id": id}, {
         "first": 1,
         "second": 1,
@@ -233,6 +232,7 @@ def get_user_detail(id):
         "fifth": 1,
     }):
         response_dto.set_cons(x["first"], x["second"], x["third"], x["fourth"], x["fifth"])
+        response_dto.set_name(name)
     return render_template('result.j2', data=response_dto)
 
 
