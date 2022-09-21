@@ -19,6 +19,7 @@ app.config.update(
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=12)
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
 db = mongo_connetion.get_mongo_connection()
 jwt = JWTManager(app)
@@ -227,28 +228,31 @@ def update_user():
     if request.method == 'GET':
         response = make_response(render_template("prosandcons_update.j2", pros=pros, cons=cons))
         return response
-
-    if request.form['pro_first'] not in pros.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['pro_first']}})
-    if request.form['pro_second'] not in pros.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['pro_second']}})
-    if request.form['pro_third'] not in pros.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['pro_third']}})
-    if request.form['pro_fourth'] not in pros.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['pro_fourth']}})
-    if request.form['pro_fifth'] not in pros.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['pro_fifth']}})
-
-    if request.form['con_first'] not in cons.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
-    if request.form['con_second'] not in cons.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
-    if request.form['con_third'] not in cons.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
-    if request.form['con_fourth'] not in cons.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
-    if request.form['con_fifth'] not in cons.values:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
+    # if request.form['pro_first'] not in pros.values():
+    #     db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['pro_first']}})
+    #     print("test")
+    # elif request.form['pro_second'] not in pros.values():
+    #     db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['pro_second']}})
+    # elif request.form['pro_third'] not in pros.values():
+    #     db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['pro_third']}})
+    # elif request.form['pro_fourth'] not in pros.values():
+    #     db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['pro_fourth']}})
+    # elif request.form['pro_fifth'] not in pros.values():
+    #     db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['pro_fifth']}})
+    #
+    # if request.form['con_first'] not in cons.values():
+    #     db.cons.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
+    # elif request.form['con_second'] not in cons.values():
+    #     db.cons.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
+    # elif request.form['con_third'] not in cons.values():
+    #     db.cons.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
+    # elif request.form['con_fourth'] not in cons.values():
+    #     db.cons.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
+    # elif request.form['con_fifth'] not in cons.values():
+    #     db.cons.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
+    response = make_response(render_template("users.j2"))
+    print("test")
+    return response
 
 
 @app.route('/user/<id>', methods=['DELETE'])
