@@ -93,7 +93,7 @@ def signup():
     # Form Data 유효성 검사
     if request.form["id"] == '':
         return make_response("아이디를 입력해주세요")
-    if request.form["pw"] != "" or request.form["pw_check"]:
+    if request.form["pw"] != "" or request.form["pw_check"] != "":
         return make_response("비밀번호를 입력해주세요.")
     if request.form["pw"] != request.form["pw_check"]:
         return make_response("입력하신 비밀번호가 다릅니다.")
@@ -133,11 +133,11 @@ def signup():
 
     db.users.insert_one(user)
 
-    characters = list(db.characters.find({},{'_id':False}))
+    characters = list(db.characters.find({}, {'_id': False}))
     characters_list = []
     for character in characters:
-        characters_list.append(character['trait'].replace(u'\xa0',u''))
-    return render_template('prosandcons_register.j2', id=user['uuid'], characters = characters_list)
+        characters_list.append(character['trait'].replace(u'\xa0', u''))
+    return render_template('prosandcons_register.j2', id=user['uuid'], characters=characters_list)
 
 
 def get_user_request_dto(hash_pw):
@@ -331,23 +331,51 @@ def delete_user():
 
 @app.route('/users/<group>', methods=['GET'])
 def get_user_class(group):
-
     global user_response_dto
     target_uuid_list = []
     user_dto_list = []
-    for x in db.users.find({"ban":group}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
+    for x in db.users.find({"ban": group}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
         target_uuid_list.append(x["uuid"])
         user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
         user_dto_list.append(user_response_dto)
 
     current_users_num = len(target_uuid_list)
+    pros_dic = {}
+    cons_dic = {}
     for i in range(current_users_num):
-        for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
-            user_dto_list[i].set_pros(x["first"], x["second"])
-        for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
-            user_dto_list[i].set_cons(x["first"], x["second"])
+        for x in db.pros.find({"id": target_uuid_list[i]},
+                              {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1}):
+            set_dic(pros_dic, x)
 
-    return render_template('users.j2', user_list=user_dto_list)
+        for x in db.cons.find({"id": target_uuid_list[i]},
+                              {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1}):
+            set_dic(cons_dic, x)
+
+
+    return render_template('users.j2', pros = pros_dic, cons = cons_dic)
+
+
+def set_dic(dic, x):
+    if x["first"] in dic:
+        dic[x["first"]] += 1
+    else:
+        dic[x["first"]] = 1
+    if x["second"] in dic:
+        dic[x["second"]] += 1
+    else:
+        dic[x["second"]] = 1
+    if x["third"] in dic:
+        dic[x["third"]] += 1
+    else:
+        dic[x["third"]] = 1
+    if x["fourth"] in dic:
+        dic[x["fourth"]] += 1
+    else:
+        dic[x["fourth"]] = 1
+    if x["fifth"] in dic:
+        dic[x["fifth"]] += 1
+    else:
+        dic[x["fifth"]] = 1
 
 
 if __name__ == '__main__':
