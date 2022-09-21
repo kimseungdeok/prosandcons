@@ -67,7 +67,7 @@ def refresh_expiring_jwts(response):
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    response = make_response(render_template('signin.j2'))
+    response = make_response(redirect('/'))
     unset_jwt_cookies(response)
     return response
 
@@ -281,15 +281,15 @@ def update_pros(find_user_info, target_uuid, update_request_dto):
 
 def update_cons(find_user_info, target_uuid, update_request_dto):
     if find_user_info.first_con != update_request_dto.first_con:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
+        db.cons.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
     if find_user_info.second_con != update_request_dto.second_con:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
+        db.cons.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
     if find_user_info.third_con != update_request_dto.third_con:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
+        db.cons.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
     if find_user_info.fourth_con != find_user_info.fourth_con:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
+        db.cons.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
     if find_user_info.fifth_con != find_user_info.fifth_con:
-        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
+        db.cons.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
 
 
 @app.route('/user/<id>', methods=['DELETE'])
