@@ -1,4 +1,3 @@
-from pymongo import MongoClient
 from config import AWS_ACCESS_KEY, AWS_SECRET_KEY
 import boto3
 
