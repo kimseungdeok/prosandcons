@@ -1,3 +1,4 @@
 config.py
 *.png
 *.pyc
+/node_modules
