@@ -82,9 +82,8 @@ def main():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        # print("this is sign-up GET log")
         return render_template('signup.j2')
-    # 여기서 부터는 POST 로직
+
     id = request.form["id"]
     exist = bool(db.users.find_one({"id": id}))
     if exist == True:
@@ -122,7 +121,12 @@ def signup():
     }
 
     db.users.insert_one(user)
-    return render_template('prosandcons_register.j2', id=user['uuid'])
+
+    characters = list(db.characters.find({},{'_id':False}))
+    characters_list = []
+    for character in characters:
+        characters_list.append(character['trait'].replace(u'\xa0',u''))
+    return render_template('prosandcons_register.j2', id=user['uuid'], characters = characters_list)
 
 
 def get_user_request_dto(hash_pw):
