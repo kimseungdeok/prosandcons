@@ -19,11 +19,21 @@
             .title{
                 padding-bottom: 50px;
             }
+            .id-group {
+                display: flex;
+                flex-direction: row;
+            }
             .btn {
-                margin-top: 30px;
+                
                 background-color:rgb(121, 183, 153);
                 color: white;
                 width: 100px;
+            }
+            .next-btn {
+                margin-top: 30px;
+            }
+            .check-btn {
+                margin-left: 20px;
             }
             .center {
                 display: flex;
@@ -66,22 +76,22 @@
             <div class="title center">
                 <h1>회원가입</h1>
             </div>
-            <div class="form-group">
+            <div class="form-group id-group">
                 <input type="text" class="form-control" id="checkup-id" name="checkup-id" placeholder="ID">
-                <button type="submit" class="btn" onclick="modal()">중복 검사</button>
+                <button type="submit" class="btn check-btn" onclick="modal()">중복 검사</button>
             </div>
             <form action="signup" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <input type="text" class="form-control" id="id" value="" name="id" placeholder="ID">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="name" placeholder="이름">
-                </div>
-                <div class="form-group">
                     <input type="password" class="form-control" name="pw" placeholder="비밀번호">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="pw" placeholder="비밀번호확인">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="name" placeholder="이름">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="gisu" placeholder="기수">
@@ -98,7 +108,7 @@
                     <input type="file" class="form-control" name="imgUrl" placeholder="사진" accept="image/*">
                 </div>
                 <div class="center">
-                    <button type="submit" class="btn">다음</button>
+                    <button type="submit" class="btn next-btn">다음</button>
                 </div>
             </form>
         </div>

@@ -37,6 +37,14 @@
                 width: 100%;
                 
             }
+            .pros-group{
+                display: flex;
+                flex-direction: row;
+            }
+            .cons-group{
+                display: flex;
+                flex-direction: row;
+            }
             .pick-button {
                 padding: 5px;
                 padding-left: 8px;
@@ -44,6 +52,7 @@
                 margin: 5px;
                 border-radius: 10px;
             }
+            
             .pick-comment {
                 font-weight: bold;
                 padding-bottom: 15px;
@@ -88,22 +97,26 @@
                 원하는 키워드를 눌러 붙여넣어보세요!
             </div>
             <div class="pick-prosandcons">
-                <div class="pros pick-button" style="cursor: pointer;">강인함</div>
-                <div class="pros pick-button" style="cursor: pointer;">호전적인</div>
-                <div class="pros pick-button" style="cursor: pointer;">확신 있는</div>
-                <div class="pros pick-button" style="cursor: pointer;">아름다운</div>
-                <div class="pros pick-button" style="cursor: pointer;">강인함</div>
-                <div class="pros pick-button" style="cursor: pointer;">강인함</div>
-                <div class="pros pick-button" style="cursor: pointer;">강인함</div>
-                <div class="pros pick-button" style="cursor: pointer;">강인함</div>
-                <div class="cons pick-button" style="cursor: pointer;">오만한</div>
-                <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
-                <div class="cons pick-button" style="cursor: pointer;">내성적인</div>
-                <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
-                <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
-                <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
-                <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
-                <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                <div class="pros-group">
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">호전적인</div>
+                    <div class="pros pick-button" style="cursor: pointer;">확신 있는</div>
+                    <div class="pros pick-button" style="cursor: pointer;">아름다운</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                </div>  
+                <div class="cons-group">
+                    <div class="cons pick-button" style="cursor: pointer;">오만한</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">내성적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                </div>  
             </div>
         </div>
         <form action="user" method="post">
@@ -169,20 +182,6 @@
     <script>
         const pickBtns = document.querySelector('.pick-prosandcons');
         console.log(pickBtns.children)
-
-        // function copyText({target}){
-        //     // if(!target.matches('.pick-prosandcons .pick-button')) return;
-
-        //     console.log(target);
-
-        //     [...pickBtns.children].forEach(pickBtns => {
-        //         window.navigator.clipboard.writeText(target.textContent).then(() => {
-        //             alert("복사완료")
-        //         })
-        //     })
-        // }
-
-        // pickBtns.onClick = copyText;
 
         // button 클릭 이벤트
         document.querySelector('.pick-prosandcons').onclick = (e) => {
