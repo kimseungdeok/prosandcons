@@ -87,14 +87,11 @@ def signup():
     id = request.form["id"]
     exist = bool(db.users.find_one({"id": id}))
     if exist == True:
-        flash("이미 가입된 아이디입니다.")
         return render_template('signup.j2')
 
     # Form Data 유효성 검사
     if request.form["id"] == '':
         return make_response("아이디를 입력해주세요")
-    if request.form["pw"] != "" or request.form["pw_check"] != "":
-        return make_response("비밀번호를 입력해주세요.")
     if request.form["pw"] != request.form["pw_check"]:
         return make_response("입력하신 비밀번호가 다릅니다.")
     if request.form["gisu"] == '':
