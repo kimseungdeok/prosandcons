@@ -73,6 +73,27 @@
                 })
             }
 
+            function makeCard(resultUrl, name, ban, first_pro, second_pro, first_con, second_con){
+            let card_html = `
+            <div class="card" style=" cursor: pointer;" onclick= "location.href='';">
+                  <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <div class="card-top">
+                      <h5 class="card-title">{{ ${name} }}</h5>
+                      <!-- 반 적용 -->
+                      <h6 class="ban">{{${ban}}}</h6> 
+                    </div>
+
+                    <p class="card-text">
+                        <span class="pros">{{${first_pro}}}</span>
+                        <span class="pros">{{${second_pro}}}</span>
+                        <span class="cons">{{${first_con}}}</span>
+                        <span class="cons">{{${second_con}}}</span>
+                    </p>
+                  </div>
+                </div>
+            `
+          }
         </script>
     <title>
     prosandcons
@@ -95,7 +116,7 @@
                 </div>
               </div>
             </div>
-            <div>
+            <!-- <div>
                 {{ user_list[0].name }}
                 {{ user_list[0].first_con }}
                 {{ user_list[0].first_pro }}
@@ -104,107 +125,26 @@
                 {{ user_list[1].first_con }}
                 {{ user_list[1].first_pro }}
                 {{ user_list[1].uuid }}
-            </div>
+            </div> -->
             <div class="card-columns">
                 <div class="card" onclick="location.href='http://127.0.0.1:5000/user/{{user_list[0].uuid}}'">
                   <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
                   <div class="card-body">
                     <div class="card-top">
-                      <h5 class="card-title">사용자 이름</h5>
+                      <h5 class="card-title">{{ user_list[0].name }}</h5>
                       <!-- 반 적용 -->
-                      <h6 class="ban">a반</h6> 
+                      <h6 class="ban">{{ user_list[0].ban }}반</h6> 
                     </div>
 
                     <p class="card-text">
-                        <span class="pros">성실함</span>
-                        <span class="pros">성실함</span>
-                        <span class="cons">조급함</span>
-                        <span class="cons">조급함</span>
-                    </p>
+                      <span class="pros">{{ user_list[0].first_pro }}</span>
+                      <span class="pros">{{ user_list[0].second_pro }}</span>
+                      <span class="cons">{{ user_list[0].first_con }}</span>
+                      <span class="cons">{{ user_list[0].second_con }}</span>
+                  </p>
                   </div>
                 </div>
-                <div class="card">
-                    <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <div class="card-top">
-                        <h5 class="card-title">사용자 이름</h5>
-                        <!-- 반 적용 -->
-                        <h6 class="ban">a반</h6> 
-                      </div>
-                      <p class="card-text">
-                        <span class="pros">성실함</span>
-                        <span class="pros">성실함</span>
-                        <span class="cons">조급함</span>
-                        <span class="cons">조급함</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <div class="card-top">
-                        <h5 class="card-title">사용자 이름</h5>
-                        <!-- 반 적용 -->
-                        <h6 class="ban">a반</h6> 
-                      </div>
-                      <p class="card-text">
-                        <span class="pros">성실함</span>
-                        <span class="pros">성실함</span>
-                        <span class="cons">조급함</span>
-                        <span class="cons">조급함</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <div class="card-top">
-                        <h5 class="card-title">사용자 이름</h5>
-                        <!-- 반 적용 -->
-                        <h6 class="ban">a반</h6> 
-                      </div>
-                      <p class="card-text">
-                        <span class="pros">성실함</span>
-                        <span class="pros">성실함</span>
-                        <span class="cons">조급함</span>
-                        <span class="cons">조급함</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <div class="card-top">
-                        <h5 class="card-title">사용자 이름</h5>
-                        <!-- 반 적용 -->
-                        <h6 class="ban">a반</h6> 
-                      </div>
-                      <p class="card-text">
-                        <span class="pros">성실함</span>
-                        <span class="pros">성실함</span>
-                        <span class="cons">조급함</span>
-                        <span class="cons">조급함</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <div class="card-top">
-                        <h5 class="card-title">사용자 이름</h5>
-                        <!-- 반 적용 -->
-                        <h6 class="ban">a반</h6> 
-                      </div>
-                      <p class="card-text">
-                        <span class="pros">성실함</span>
-                        <span class="pros">성실함</span>
-                        <span class="cons">조급함</span>
-                        <span class="cons">조급함</span>
-                      </p>
-                    </div>
-                  </div>
             </div>
-            
         </div>
     </body>
 </html>
