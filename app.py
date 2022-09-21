@@ -63,7 +63,7 @@ def refresh_expiring_jwts(response):
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    response = jsonify({"msg": "logout successful"})
+    response = make_response(render_template('signin.j2'))
     unset_jwt_cookies(response)
     return response
 
@@ -145,8 +145,9 @@ def get_cons_request_dto():
 
 @app.route('/users', methods=['GET'])
 def get_users():
-    now = "users"
-    return render_template('signin.j2', current_time=now)
+    # 모든 User 불러오기 => 해당 유저의 UUID, 이름, 기수 불러오기
+    # 해당
+    return render_template('main.j2', current_time=now)
 
 
 @app.route('/user/<id>', methods=['PATCH'])
