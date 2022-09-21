@@ -8,6 +8,7 @@ import datetime
 import uuid
 from pymongo import MongoClient
 from flask_jwt_extended import *
+import os
 
 import config
 import dto
@@ -101,6 +102,7 @@ def signup():
                 ContentType= content_type)
     img_url = f"https://{BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/{file_name}"
     request_dto.set_url(img_url)
+    os.remove(file_path)
 
     user = {
         'uuid': str(uuid.uuid4()),
