@@ -83,6 +83,16 @@ def signup():
     if request.method == 'GET':
         # print("this is sign-up GET log")
         return render_template('signup.j2')
+    # Form Data 유효성 검사
+    if request.form["id"] == '':
+        return make_response("아이디를 입력해주세요")
+    if request.form["pw"] != "" or request.form["pw_check"]:
+        return make_response("비밀번호를 입력해주세요.")
+    if request.form["pw"] != request.form["pw_check"]:
+        return make_response("입력하신 비밀번호가 다릅니다.")
+    if request.form["gisu"] == '':
+        return make_response("기수를 선택해주세요")
+
     # 여기서 부터는 POST 로직
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)

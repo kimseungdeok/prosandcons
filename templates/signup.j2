@@ -77,18 +77,18 @@
                 <h1>회원가입</h1>
             </div>
             <div class="form-group id-group">
-                <input type="text" class="form-control" id="checkup-id" name="checkup-id" placeholder="ID">
+                <input type="text" class="form-control" id="checkup-id" name="checkup-id" placeholder="ID" required>
                 <button type="submit" class="btn check-btn" onclick="modal()">중복 검사</button>
             </div>
             <form action="signup" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="id" value="" name="id" placeholder="ID">
+                    <input type="text" class="form-control" id="id" value="" name="id" placeholder="ID" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="pw" placeholder="비밀번호">
+                    <input type="password" class="form-control" name="pw" placeholder="비밀번호" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="pw" placeholder="비밀번호확인">
+                    <input type="password" class="form-control" name="pw_check" placeholder="비밀번호확인" required>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="name" placeholder="이름">
