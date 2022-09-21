@@ -1,5 +1,5 @@
 import hashlib
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, render_template, request, jsonify, make_response, redirect
 import datetime
 import uuid
 from pymongo import MongoClient
@@ -40,7 +40,7 @@ def login():
         return make_response("존재하지 않는 유저입니다.", 400)
     if encoded_pw == pw_from_db:
         # 여기에 JWT or 쿠키 추가
-        response = make_response(render_template("main.j2"))
+        response = make_response(redirect("/users"))
         access_token = create_access_token(identity=id)
         set_access_cookies(response, access_token)
         return response
@@ -98,8 +98,8 @@ def signup():
 def get_user_request_dto(hash_pw):
     request_dto = dto.UserSignupRequestDto(
         request.form["id"], hash_pw,
-        request.form["gisu"],request.form["ban"],
-        request.form["imgUrl"],request.form["name"])
+        request.form["gisu"], request.form["ban"],
+        request.form["imgUrl"], request.form["name"])
     return request_dto
 
 
@@ -149,9 +149,22 @@ def get_cons_request_dto():
 @app.route('/users', methods=['GET'])
 def get_users():
     # 모든 User 불러오기 => 해당 유저의 UUID, 이름, 기수 불러오기
-    db.users
-    # 해당
-    return render_template('main.j2', current_time=now)
+    global user_response_dto
+    target_uuid_list = []
+    user_dto_list = []
+    for x in db.users.find({}, {"uuid": 1, "ban": 1, "name": 1}):
+        target_uuid_list.append(x["uuid"])
+        user_response_dto = dto.UserResponseDto(x["ban"], x["name"], "", "", "", "", "")
+        user_dto_list.append(user_response_dto)
+
+    current_users_num = len(target_uuid_list)
+    for i in range(current_users_num):
+        for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
+            user_response_dto.set_pros(x["first"], x["second"])
+        for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
+            user_response_dto.set_cons(x["first"], x["second"])
+
+    return render_template('users.j2', user_list=user_dto_list)
 
 
 @app.route('/user/<id>', methods=['PATCH'])
