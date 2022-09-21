@@ -1,5 +1,5 @@
 import hashlib
-from flask import Flask, render_template, request, jsonify, make_response, redirect
+from flask import Flask, render_template, request, jsonify, make_response, redirect, flash, url_for
 import mongo_connetion
 from s3_connection import s3_connection
 from config import *
@@ -13,6 +13,7 @@ import config
 import dto
 
 app = Flask(__name__)
+app.secret_key = 'some_secret'
 app.config.update(
     DEBUG=True,
     JWT_SECRET_KEY=config.JWT_SECRET_KEY
@@ -84,6 +85,12 @@ def signup():
         # print("this is sign-up GET log")
         return render_template('signup.j2')
     # 여기서 부터는 POST 로직
+    id = request.form["id"]
+    exist = bool(db.users.find_one({"id": id}))
+    if exist == True:
+        flash("이미 가입된 아이디입니다.")
+        return render_template('signup.j2')
+
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)
 
