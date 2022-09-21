@@ -351,10 +351,7 @@ def get_user_class(group):
                               {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1}):
             set_dic(cons_dic, x)
 
-    print(pros_dic)
-    print(cons_dic)
-
-    return render_template('users.j2', pros = pros_dic, cons= cons_dic)
+    return render_template('group.j2', pros=pros_dic, cons=cons_dic)
 
 
 def set_dic(dic, x):
