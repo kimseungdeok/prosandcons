@@ -226,9 +226,9 @@ def get_user_detail(id):
 
 
 @app.route('/user/<id>', methods=['DELETE'])
-def delete_user():
-    now = "users"
-    return render_template('signin.j2', current_time=now)
+def delete_user(id):
+    db.users.delete_one({'id':id})
+    return render_template('signin.j2')
 
 
 if __name__ == '__main__':
