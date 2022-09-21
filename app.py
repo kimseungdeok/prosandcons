@@ -154,23 +154,42 @@ def get_users():
     user_dto_list = []
     for x in db.users.find({}, {"uuid": 1, "ban": 1, "name": 1}):
         target_uuid_list.append(x["uuid"])
-        user_response_dto = dto.UserResponseDto(x["ban"], x["name"], "", "", "", "", "")
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], "", "", "", "", "")
         user_dto_list.append(user_response_dto)
 
     current_users_num = len(target_uuid_list)
     for i in range(current_users_num):
         for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
-            user_response_dto.set_pros(x["first"], x["second"])
+            user_dto_list[i].set_pros(x["first"], x["second"])
         for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
-            user_response_dto.set_cons(x["first"], x["second"])
+            user_dto_list[i].set_cons(x["first"], x["second"])
+
+    print(user_dto_list)
 
     return render_template('users.j2', user_list=user_dto_list)
 
 
-@app.route('/user/<id>', methods=['PATCH'])
-def update_user():
-    now = "users"
-    return render_template('signin.j2', current_time=now)
+@app.route('/user/<id>', methods=['GET'])
+def get_user_detail(id):
+    response_dto = dto.UserDetailResponseDto()
+    for x in db.pros.find({"id": id}, {
+        "first": 1,
+        "second": 1,
+        "third": 1,
+        "fourth": 1,
+        "fifth": 1,
+    }):
+        response_dto.set_pros(x["first"], x["second"], x["third"], x["fourth"], x["fifth"])
+    for x in db.cons.find({"id": id}, {
+        "first": 1,
+        "second": 1,
+        "third": 1,
+        "fourth": 1,
+        "fifth": 1,
+    }):
+        response_dto.set_cons(x["first"], x["second"], x["third"], x["fourth"], x["fifth"])
+    print(response_dto)
+    return render_template('result.j2', data=response_dto)
 
 
 @app.route('/user/<id>', methods=['DELETE'])

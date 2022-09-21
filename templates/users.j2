@@ -65,7 +65,15 @@
                 border-radius: 8px;
             }
         </style>
-        
+        <script>
+            let showDetails = (id) => {
+                $.ajax({
+                    type: "GET",
+                    url: "/user/" + id
+                })
+            }
+
+        </script>
     <title>
     prosandcons
     </title>
@@ -91,9 +99,14 @@
                 {{ user_list[0].name }}
                 {{ user_list[0].first_con }}
                 {{ user_list[0].first_pro }}
+                {{ user_list[0].uuid }}
+                {{ user_list[1].name }}
+                {{ user_list[1].first_con }}
+                {{ user_list[1].first_pro }}
+                {{ user_list[1].uuid }}
             </div>
             <div class="card-columns">
-                <div class="card">
+                <div class="card" onclick="location.href='http://127.0.0.1:5000/user/{{user_list[0].uuid}}'">
                   <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
                   <div class="card-body">
                     <div class="card-top">
