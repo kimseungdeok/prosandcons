@@ -123,7 +123,7 @@
             </div>
             <div class="card-columns">
                 {% for card in user_list %}
-                 <div class="card" style=" cursor: pointer;" onclick="location.href='http://127.0.0.1:5000/user/{{card.uuid}}'"">
+                 <div class="card" style=" cursor: pointer;" onclick="location.href='user/{{card.uuid}}'">
                   <img src={{ card.imgUrl }} class="card-img-top" alt="...">
                   <div class="card-body">
                     <div class="card-top">

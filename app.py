@@ -1,5 +1,5 @@
 import hashlib
-from flask import Flask, render_template, request, jsonify, make_response, redirect
+from flask import Flask, render_template, request, jsonify, make_response, redirect, flash, url_for
 import mongo_connetion
 from s3_connection import s3_connection
 from config import *
@@ -13,6 +13,7 @@ import config
 import dto
 
 app = Flask(__name__)
+app.secret_key = 'some_secret'
 app.config.update(
     DEBUG=True,
     JWT_SECRET_KEY=config.JWT_SECRET_KEY
@@ -81,8 +82,21 @@ def main():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        # print("this is sign-up GET log")
         return render_template('signup.j2')
+
+    id = request.form["id"]
+    exist = bool(db.users.find_one({"id": id}))
+    if exist == True:
+        return render_template('signup.j2')
+
+    # Form Data 유효성 검사
+    if request.form["id"] == '':
+        return make_response("아이디를 입력해주세요")
+    if request.form["pw"] != request.form["pw_check"]:
+        return make_response("입력하신 비밀번호가 다릅니다.")
+    if request.form["gisu"] == '':
+        return make_response("기수를 선택해주세요")
+
     # 여기서 부터는 POST 로직
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)
@@ -115,7 +129,12 @@ def signup():
     }
 
     db.users.insert_one(user)
-    return render_template('prosandcons_register.j2', id=user['uuid'])
+
+    characters = list(db.characters.find({}, {'_id': False}))
+    characters_list = []
+    for character in characters:
+        characters_list.append(character['trait'].replace(u'\xa0', u''))
+    return render_template('prosandcons_register.j2', id=user['uuid'], characters=characters_list)
 
 
 def get_user_request_dto(hash_pw):
@@ -139,6 +158,14 @@ def checkup():
 @app.route('/user', methods=['POST'])
 def post_pros_and_cons():
     id = request.form["user_id"]
+    if request.form["pro_first"] == "" or request.form["pro_second"] == "" or request.form["pro_third"] == "" or \
+            request.form["pro_fourth"] == "" or request.form["pro_fifth"] == "":
+        return make_response("장점 5개 모두 입력해주세요", 400)
+
+    if request.form["con_first"] == "" or request.form["con_second"] == "" or request.form["con_third"] == "" or \
+            request.form["con_fourth"] == "" or request.form["con_fifth"] == "":
+        return make_response("단점 5개 모두 입력해주세요", 400)
+
     pros_request_dto = get_pros_request_dto()
     cons_request_dto = get_cons_request_dto()
     pros = {
@@ -205,8 +232,7 @@ def get_users():
 @jwt_required()
 def get_user_detail(id):
     response_dto = dto.UserDetailResponseDto()
-    db.users.find_one({"uuid": id}, {"name"})
-
+    name = db.users.find_one({"uuid": id}, {"name"})['name']
     for x in db.pros.find({"id": id}, {
         "first": 1,
         "second": 1,
@@ -223,6 +249,7 @@ def get_user_detail(id):
         "fifth": 1,
     }):
         response_dto.set_cons(x["first"], x["second"], x["third"], x["fourth"], x["fifth"])
+        response_dto.set_name(name)
     return render_template('result.j2', data=response_dto)
 
 
@@ -295,8 +322,56 @@ def update_cons(find_user_info, target_uuid, update_request_dto):
 @jwt_required()
 def delete_user():
     id = get_jwt_identity()
-    db.users.delete_one({'id':id})
-    return jsonify ({'result': 'success'})
+    db.users.delete_one({'id': id})
+    return jsonify({'result': 'success'})
+
+
+@app.route('/users/<group>', methods=['GET'])
+def get_user_class(group):
+    global user_response_dto
+    target_uuid_list = []
+    user_dto_list = []
+    for x in db.users.find({"ban": group}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
+        target_uuid_list.append(x["uuid"])
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
+        user_dto_list.append(user_response_dto)
+
+    current_users_num = len(target_uuid_list)
+    pros_dic = {}
+    cons_dic = {}
+    for i in range(current_users_num):
+        for x in db.pros.find({"id": target_uuid_list[i]},
+                              {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1}):
+            set_dic(pros_dic, x)
+
+        for x in db.cons.find({"id": target_uuid_list[i]},
+                              {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1}):
+            set_dic(cons_dic, x)
+
+    return render_template('group.j2', pros=pros_dic, cons=cons_dic)
+
+
+def set_dic(dic, x):
+    if x["first"] in dic:
+        dic[x["first"]] += 1
+    else:
+        dic[x["first"]] = 1
+    if x["second"] in dic:
+        dic[x["second"]] += 1
+    else:
+        dic[x["second"]] = 1
+    if x["third"] in dic:
+        dic[x["third"]] += 1
+    else:
+        dic[x["third"]] = 1
+    if x["fourth"] in dic:
+        dic[x["fourth"]] += 1
+    else:
+        dic[x["fourth"]] = 1
+    if x["fifth"] in dic:
+        dic[x["fifth"]] += 1
+    else:
+        dic[x["fifth"]] = 1
 
 
 if __name__ == '__main__':
