@@ -120,24 +120,7 @@
               </div>
             </div>
             <div class="card-columns">
-                <!-- <div class="card" onclick="location.href='http://127.0.0.1:5000/user/{{user_list[0].uuid}}'">
-                  <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <div class="card-top">
-                      <h5 class="card-title">{{ user_list[0].name }}</h5>
-                      
-                      <h6 class="ban">{{ user_list[0].ban }}반</h6> 
-                    </div>
-
-                    <p class="card-text">
-                      <span class="pros">dddd</span>
-                      <span class="pros">dddd</span>
-                      <span class="cons">ddddd</span>
-                      <span class="cons">ddddd</span>
-                  </p>
-                  </div>
-                </div> -->
-                {% for card in user_list %} 
+                {% for card in user_list %}
                  <div class="card" style=" cursor: pointer;" onclick="location.href='http://127.0.0.1:5000/user/{{card.uuid}}'"">
                   <img src={{ card.imgUrl }} class="card-img-top" alt="...">
                   <div class="card-body">

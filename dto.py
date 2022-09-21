@@ -43,7 +43,7 @@ class UserResponseDto:
     first_con: str
     second_con: str
 
-    def set_img_url(self,url):
+    def set_img_url(self, url):
         self.imgUrl = url
 
     def set_pros(self, first, second):
@@ -73,7 +73,7 @@ class UserDetailResponseDto:
     def __init__(self):
         return
 
-    def set_name(self,name):
+    def set_name(self, name):
         self.name = name
 
     def set_pros(self, first, second, third, fourth, fifth):
@@ -90,4 +90,32 @@ class UserDetailResponseDto:
         self.fourth_con = fourth
         self.fifth_con = fifth
 
+    def pros_make_list(self):
+        pros_list = [self.first_pro, self.second_pro, self.third_pro, self.fourth_pro, self.fifth_pro]
+        return pros_list
 
+    def cons_make_list(self):
+        cons_list = [self.first_con, self.second_con, self.third_con, self.fourth_con, self.fifth_con]
+        return cons_list
+
+
+@dc.dataclass(unsafe_hash=True)
+class UserUpdateRequestDto:
+    first_pro: str
+    second_pro: str
+    third_pro: str
+    fourth_pro: str
+    fifth_pro: str
+    first_con: str
+    second_con: str
+    third_con: str
+    fourth_con: str
+    fifth_con: str
+
+    def pros_make_list(self):
+        pros_list = [self.first_pro, self.second_pro, self.third_pro, self.fourth_pro, self.fifth_pro]
+        return pros_list
+
+    def cons_make_list(self):
+        cons_list = [self.first_con, self.second_con, self.third_con, self.fourth_con, self.fifth_con]
+        return cons_list

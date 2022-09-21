@@ -86,7 +86,7 @@ def signup():
     # 여기서 부터는 POST 로직
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)
-    
+
     # AWS S3로 이미지 URL 생성 필요
     f = request.files['imgUrl']
 
@@ -198,8 +198,6 @@ def get_users():
         for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
             user_dto_list[i].set_cons(x["first"], x["second"])
 
-    print(user_dto_list)
-
     return render_template('users.j2', user_list=user_dto_list)
 
 
@@ -237,34 +235,61 @@ def update_user():
     target_uuid = find_user["uuid"]
     pros = db.pros.find_one({"id": target_uuid}, {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1})
     cons = db.cons.find_one({"id": target_uuid}, {"first": 1, "second": 1, "third": 1, "fourth": 1, "fifth": 1})
+    find_user_info = dto.UserDetailResponseDto()
+    find_user_info.set_pros(
+        pros["first"], pros["second"], pros["third"], pros["fourth"], pros["fifth"],
+    )
+    find_user_info.set_cons(
+        cons["first"], cons["second"], cons["third"], cons["fourth"], cons["fifth"],
+    )
     if request.method == 'GET':
         response = make_response(render_template("prosandcons_update.j2", pros=pros, cons=cons))
         return response
-    # if request.form['pro_first'] not in pros.values():
-    #     db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['pro_first']}})
-    #     print("test")
-    # elif request.form['pro_second'] not in pros.values():
-    #     db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['pro_second']}})
-    # elif request.form['pro_third'] not in pros.values():
-    #     db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['pro_third']}})
-    # elif request.form['pro_fourth'] not in pros.values():
-    #     db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['pro_fourth']}})
-    # elif request.form['pro_fifth'] not in pros.values():
-    #     db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['pro_fifth']}})
-    #
-    # if request.form['con_first'] not in cons.values():
-    #     db.cons.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
-    # elif request.form['con_second'] not in cons.values():
-    #     db.cons.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
-    # elif request.form['con_third'] not in cons.values():
-    #     db.cons.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
-    # elif request.form['con_fourth'] not in cons.values():
-    #     db.cons.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
-    # elif request.form['con_fifth'] not in cons.values():
-    #     db.cons.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
-    response = make_response(render_template("users.j2"))
-    print("test")
+
+    update_request_dto = dto.UserUpdateRequestDto(request.form['pro_first'], request.form['pro_second'],
+                                                  request.form['pro_third'], request.form['pro_fourth'],
+                                                  request.form['pro_fifth'], request.form['con_first'],
+                                                  request.form['con_second'], request.form['con_third'],
+                                                  request.form['con_fourth'], request.form['con_fifth'])
+    print(find_user_info.pros_make_list())
+    print(update_request_dto.pros_make_list())
+    print(update_request_dto.pros_make_list() == find_user_info.pros_make_list())
+
+    if find_user_info.pros_make_list() == update_request_dto.pros_make_list() and \
+            find_user_info.cons_make_list() == update_request_dto.cons_make_list():
+        response = make_response("장점 또는 단점 중 데이터의 변경이 필요합니다.")
+        return response
+
+    update_pros(find_user_info, target_uuid, update_request_dto)
+    update_cons(find_user_info, target_uuid, update_request_dto)
+    response = make_response(redirect("/users"))
     return response
+
+
+def update_pros(find_user_info, target_uuid, update_request_dto):
+    if find_user_info.first_pro != update_request_dto.first_pro:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['pro_first']}})
+    if find_user_info.second_pro != update_request_dto.second_pro:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['pro_second']}})
+    if find_user_info.third_pro != update_request_dto.third_pro:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['pro_third']}})
+    if find_user_info.fourth_pro != find_user_info.fourth_pro:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['pro_fourth']}})
+    if find_user_info.fifth_pro != find_user_info.fifth_pro:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['pro_fifth']}})
+
+
+def update_cons(find_user_info, target_uuid, update_request_dto):
+    if find_user_info.first_con != update_request_dto.first_con:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"first": request.form['con_first']}})
+    if find_user_info.second_con != update_request_dto.second_con:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"second": request.form['con_second']}})
+    if find_user_info.third_con != update_request_dto.third_con:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"third": request.form['con_third']}})
+    if find_user_info.fourth_con != find_user_info.fourth_con:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fourth": request.form['con_fourth']}})
+    if find_user_info.fifth_con != find_user_info.fifth_con:
+        db.pros.update_one({"id": target_uuid}, {"$set": {"fifth": request.form['con_fifth']}})
 
 
 @app.route('/user/<id>', methods=['DELETE'])
