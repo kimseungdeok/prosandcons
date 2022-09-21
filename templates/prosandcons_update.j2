@@ -10,10 +10,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
         <style>
             .container {
                 margin: 0 auto;
-                margin-top: 12.5%;
+                margin-top: 3%;
             }
             .header {
                 display: flex;
@@ -27,6 +28,40 @@
                 background-color: gray;
                 color: white;
                 border-radius: 8px;
+            }
+            .pick-area{
+                padding: 10px;
+                border: 1px solid gray;
+                border-radius: 10px;
+                box-shadow: 5px 5px lightgray;
+            }
+            .pick-prosandcons {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100%;
+                
+            }
+            .pros-group{
+                display: flex;
+                flex-direction: row;
+            }
+            .cons-group{
+                display: flex;
+                flex-direction: row;
+            }
+            .pick-button {
+                padding: 5px;
+                padding-left: 8px;
+                padding-right: 8px;
+                margin: 5px;
+                border-radius: 10px;
+            }
+            
+            .pick-comment {
+                font-weight: bold;
+                padding-bottom: 15px;
             }
             .row {
                 padding-top: 30px;
@@ -104,6 +139,34 @@
                 </div>
             </div>
         </div>
+        <div class="pick-area">
+            <div class="pick-comment center">
+                아래의 키워드를 누르면 복사가 됩니다.
+                원하는 키워드를 눌러 붙여넣어보세요!
+            </div>
+            <div class="pick-prosandcons">
+                <div class="pros-group">
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">호전적인</div>
+                    <div class="pros pick-button" style="cursor: pointer;">확신 있는</div>
+                    <div class="pros pick-button" style="cursor: pointer;">아름다운</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                    <div class="pros pick-button" style="cursor: pointer;">강인함</div>
+                </div>  
+                <div class="cons-group">
+                    <div class="cons pick-button" style="cursor: pointer;">오만한</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">내성적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                    <div class="cons pick-button" style="cursor: pointer;">독단적인</div>
+                </div>  
+            </div>
+        </div>
         <form action="update" method="post">
             <div class="prosandcons">
                 <div class="form-group row">
@@ -158,7 +221,19 @@
             </div>
         </form>
     </div>
-
-    
     </body>
+    <script>
+        const pickBtns = document.querySelector('.pick-prosandcons');
+        console.log(pickBtns.children)
+
+        // button 클릭 이벤트
+        document.querySelector('.pick-prosandcons').onclick = (e) => {
+        // div의 내용(textContent)을 복사한다.
+        console.log(e.target)
+            window.navigator.clipboard.writeText(e.target.textContent).then(() => {
+                // 복사가 완료되면 호출된다.
+                alert("복사완료");
+            });
+        };
+    </script>
 </html>
