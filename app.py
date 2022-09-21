@@ -1,5 +1,8 @@
 import hashlib
 from flask import Flask, render_template, request, jsonify, make_response, redirect
+from db_connection import s3_connection
+from config import *
+from werkzeug.utils import secure_filename
 import datetime
 import uuid
 from pymongo import MongoClient
@@ -74,7 +77,7 @@ def main():
     return render_template('signin.j2', current_time=now)
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         # print("this is sign-up GET log")
@@ -83,14 +86,32 @@ def signup():
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)
     # AWS S3로 이미지 URL 생성 필요
+
+    f = request.files['imgUrl']
+
+    file_name = secure_filename(f.filename)
+    f.save(file_name)
+    file_path = file_name
+    file_name = 'profile/'+ request_dto.id
+    content_type = f.content_type
+    data = open(file_path,'rb')
+    s3_connection().Bucket(BUCKET_NAME).put_object(
+                Key = file_name,
+                Body = data,
+                ContentType= content_type)
+    img_url = f"https://{BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/{file_name}"
+    request_dto.set_url(img_url)
+
     user = {
         'uuid': str(uuid.uuid4()),
         'id': request_dto.id,
         'pw': request_dto.password,
         'gisu': request_dto.gisu,
         'ban': request_dto.ban,
-        'name': request_dto.name
+        'name': request_dto.name,
+        'imgUrl': request_dto.imgUrl
     }
+
     db.users.insert_one(user)
     return render_template('prosandcons_register.j2', id=user['uuid'])
 
@@ -99,7 +120,7 @@ def get_user_request_dto(hash_pw):
     request_dto = dto.UserSignupRequestDto(
         request.form["id"], hash_pw,
         request.form["gisu"], request.form["ban"],
-        request.form["imgUrl"], request.form["name"])
+        "", request.form["name"])
     return request_dto
 
 
