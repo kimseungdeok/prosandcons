@@ -8,3 +8,6 @@ class UserSignupRequestDto:
     gisu: str
     ban: str
     imgUrl: str
+
+    def set_url(self, imgUrl):
+        self.imgUrl = imgUrl

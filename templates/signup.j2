@@ -14,10 +14,13 @@
         <title>
         회원가입 페이지
     </title>
+    <script>
+        const writeBtn = document.getElementById('btn1')
+    </script>
     </head>
     <body>
     <div>
-        <form action="signup" method="post">
+        <form action="signup" method="post" enctype = "multipart/form-data">
             <div class="form-group">
                 <input type="text" class="form-control" name="id" placeholder="ID">
             </div>
@@ -35,10 +38,10 @@
                     </select>
                 </label>
             </div>
-            <div class="form-group">
-                <input type="file" class="form-control" name="imgUrl" placeholder="사진" accept="image/*">
+            <div class="container-sm">
+                <input type = "file" name = "imgUrl" />
+                <button type="submit" class="btn btn-primary">다음</button>
             </div>
-            <button type="submit" class="btn btn-primary">다음</button>
         </form>
     </div>
     <div>

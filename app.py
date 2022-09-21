@@ -1,4 +1,7 @@
 from flask import Flask, render_template, make_response, request
+from db_connection import s3_connection
+from config import *
+from werkzeug.utils import secure_filename
 import datetime
 import dto
 
@@ -32,20 +35,33 @@ def main():
     return render_template('test.j2', current_time=now)
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         print("this is sign-up GET log")
         return render_template('signup.j2')
     # 여기서 부터는 POST 로직
-    request_dto = dto.UserSignupRequestDto(request.form["id"], request.form["pw"], request.form["gisu"],
-                                           request.form["ban"], request.form["imgUrl"])
-    print(request_dto.id)
-    print(request_dto.password)
-    print(request_dto.gisu)
-    print(request_dto.ban)
-    print(request_dto.imgUrl)
-    return render_template('prosAndCons.j2')
+    else:
+        request_dto = dto.UserSignupRequestDto(request.form["id"], request.form["pw"], request.form["gisu"],
+                                            request.form["ban"], "")
+
+        f = request.files['imgUrl']
+
+        file_name = secure_filename(f.filename)
+        f.save(file_name)
+
+        file_path = file_name
+        file_name = 'profile/'+ request_dto.id
+        content_type = f.content_type
+        data = open(file_path,'rb')
+        s3_connection().Bucket(BUCKET_NAME).put_object(
+            Key = file_name, 
+            Body = data, 
+            ContentType= content_type)
+
+        img_url = f"https://{BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/{file_name}"
+        request_dto.set_url(img_url)
+        return "success"
 
 
 @app.route('/users', methods=['GET'])
