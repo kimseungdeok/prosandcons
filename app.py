@@ -299,5 +299,26 @@ def delete_user():
     return jsonify ({'result': 'success'})
 
 
+@app.route('/users/<group>', methods=['GET'])
+def get_user_class(group):
+
+    global user_response_dto
+    target_uuid_list = []
+    user_dto_list = []
+    for x in db.users.find({"ban":group}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
+        target_uuid_list.append(x["uuid"])
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
+        user_dto_list.append(user_response_dto)
+
+    current_users_num = len(target_uuid_list)
+    for i in range(current_users_num):
+        for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
+            user_dto_list[i].set_pros(x["first"], x["second"])
+        for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
+            user_dto_list[i].set_cons(x["first"], x["second"])
+
+    return render_template('users.j2', user_list=user_dto_list)
+
+
 if __name__ == '__main__':
     app.run()
