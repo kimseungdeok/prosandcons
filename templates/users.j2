@@ -36,6 +36,10 @@
             .title{
                 font-weight: bolder;
             }
+            .title a{
+              text-decoration: none;
+              color: black;
+            }
             .logout-btn{
               background-color: gray;
               border-radius: 8px;
@@ -46,6 +50,23 @@
               border-radius: 50%;
               width: 35px;
               height: 35px;
+            }
+            .division{
+              display: flex;
+              justify-content: center;
+              border: 1px solid black;
+              border-radius: 10px;
+              padding: 10px;
+
+            }
+            .division button{
+              margin-left: 5px;
+            }
+            .aBan-btn {
+              background-color: rgb(255, 75, 82);
+            }
+            .bBan-btn {
+              background-color:rgb(121, 183, 153);
             }
             .main-btn-group{
               display: flex;
@@ -74,30 +95,7 @@
 
             }
         </style>
-        <script>
-
-          //   function makeCard(uuid, imgUrl, name, ban, first_pro, second_pro, first_con, second_con){
-          //   let card_html = `
-          //   <div class="card" style=" cursor: pointer;" onclick="location.href='http://127.0.0.1:5000/user/${uuid}'"">
-          //         <img src=${imgUrl} class="card-img-top" alt="...">
-          //         <div class="card-body">
-          //           <div class="card-top">
-          //             <h5 class="card-title">${name}</h5>
-          //             <!-- 반 적용 -->
-          //             <h6 class="ban">${ban}</h6>
-          //           </div>
-
-          //           <p class="card-text">
-          //               <span class="pros">${first_pro}</span>
-          //               <span class="pros">${second_pro}</span>
-          //               <span class="cons">${first_con}</span>
-          //               <span class="cons">${second_con}</span>
-          //           </p>
-          //         </div>
-          //       </div>
-          //   `
-          // }
-        </script>
+        
     <title>
     prosandcons
     </title>
@@ -106,7 +104,7 @@
         <div class="container">
             <div class="header">
               <div class="title">
-                  <h1>너의 장단점은</h1>
+                  <a href="/"><h1>너의 장단점은</h1></a>
               </div>
               <div class="main-btn-group">
                 <div class="logout">
@@ -118,6 +116,10 @@
                   <img src="../static/defaultImage.png" onclick="location.href='update'" alt=""/>
                 </div>
               </div>
+            </div>
+            <div class="division">
+              <button type="button" class="btn aBan-btn">A반</button>
+              <button type="button" class="btn bBan-btn">B반</button>
             </div>
             <div class="card-columns">
                 {% for card in user_list %}
