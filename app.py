@@ -1,5 +1,5 @@
 import hashlib
-from flask import Flask, render_template, request, jsonify, make_response, redirect
+from flask import Flask, render_template, request, jsonify, make_response, redirect, flash, url_for
 import mongo_connetion
 from s3_connection import s3_connection
 from config import *
@@ -13,6 +13,7 @@ import config
 import dto
 
 app = Flask(__name__)
+app.secret_key = 'some_secret'
 app.config.update(
     DEBUG=True,
     JWT_SECRET_KEY=config.JWT_SECRET_KEY
@@ -81,8 +82,14 @@ def main():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        # print("this is sign-up GET log")
         return render_template('signup.j2')
+
+    id = request.form["id"]
+    exist = bool(db.users.find_one({"id": id}))
+    if exist == True:
+        flash("이미 가입된 아이디입니다.")
+        return render_template('signup.j2')
+
     # Form Data 유효성 검사
     if request.form["id"] == '':
         return make_response("아이디를 입력해주세요")
@@ -125,7 +132,12 @@ def signup():
     }
 
     db.users.insert_one(user)
-    return render_template('prosandcons_register.j2', id=user['uuid'])
+
+    characters = list(db.characters.find({},{'_id':False}))
+    characters_list = []
+    for character in characters:
+        characters_list.append(character['trait'].replace(u'\xa0',u''))
+    return render_template('prosandcons_register.j2', id=user['uuid'], characters = characters_list)
 
 
 def get_user_request_dto(hash_pw):
@@ -315,6 +327,27 @@ def delete_user():
     id = get_jwt_identity()
     db.users.delete_one({'id': id})
     return jsonify({'result': 'success'})
+
+
+@app.route('/users/<group>', methods=['GET'])
+def get_user_class(group):
+
+    global user_response_dto
+    target_uuid_list = []
+    user_dto_list = []
+    for x in db.users.find({"ban":group}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
+        target_uuid_list.append(x["uuid"])
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
+        user_dto_list.append(user_response_dto)
+
+    current_users_num = len(target_uuid_list)
+    for i in range(current_users_num):
+        for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
+            user_dto_list[i].set_pros(x["first"], x["second"])
+        for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
+            user_dto_list[i].set_cons(x["first"], x["second"])
+
+    return render_template('users.j2', user_list=user_dto_list)
 
 
 if __name__ == '__main__':
