@@ -1,6 +1,7 @@
 import hashlib
 from flask import Flask, render_template, request, jsonify, make_response, redirect
-from db_connection import s3_connection
+import mongo_connetion
+from s3_connection import s3_connection
 from config import *
 from werkzeug.utils import secure_filename
 import datetime
@@ -20,8 +21,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=15)
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_SECURE"] = False
 
-client = MongoClient('mongodb://15.164.217.239', 27017, username="root", password="root")
-db = client.prosncons
+db = mongo_connetion.get_mongo_connection()
 jwt = JWTManager(app)
 
 
