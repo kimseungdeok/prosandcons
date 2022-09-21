@@ -86,8 +86,8 @@ def signup():
     # 여기서 부터는 POST 로직
     hash_pw = hashlib.sha256(request.form["pw"].encode('utf-8')).hexdigest()
     request_dto = get_user_request_dto(hash_pw)
+    
     # AWS S3로 이미지 URL 생성 필요
-
     f = request.files['imgUrl']
 
     file_name = secure_filename(f.filename)
@@ -124,6 +124,16 @@ def get_user_request_dto(hash_pw):
         request.form["gisu"], request.form["ban"],
         "", request.form["name"])
     return request_dto
+
+
+@app.route('/checkup', methods=['POST'])
+def checkup():
+    id_receive = request.form["id_give"]
+    exist = bool(db.users.find_one({"id": id_receive}))
+    if exist == False:
+        return jsonify({'exist': 'false'})
+    else:
+        return jsonify({'exist': 'true'})
 
 
 @app.route('/user', methods=['POST'])
