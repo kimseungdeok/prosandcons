@@ -149,6 +149,14 @@ def checkup():
 @app.route('/user', methods=['POST'])
 def post_pros_and_cons():
     id = request.form["user_id"]
+    if request.form["pro_first"] == "" or request.form["pro_second"] == "" or request.form["pro_third"] == "" or \
+            request.form["pro_fourth"] == "" or request.form["pro_fifth"] == "":
+        return make_response("장점 5개 모두 입력해주세요", 400)
+
+    if request.form["con_first"] == "" or request.form["con_second"] == "" or request.form["con_third"] == "" or \
+            request.form["con_fourth"] == "" or request.form["con_fifth"] == "":
+        return make_response("단점 5개 모두 입력해주세요", 400)
+
     pros_request_dto = get_pros_request_dto()
     cons_request_dto = get_cons_request_dto()
     pros = {
@@ -305,8 +313,8 @@ def update_cons(find_user_info, target_uuid, update_request_dto):
 @jwt_required()
 def delete_user():
     id = get_jwt_identity()
-    db.users.delete_one({'id':id})
-    return jsonify ({'result': 'success'})
+    db.users.delete_one({'id': id})
+    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
