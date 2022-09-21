@@ -8,6 +8,7 @@ class UserSignupRequestDto:
     gisu: str
     ban: str
     imgUrl: str
+    name: str
 
 
 @dc.dataclass(unsafe_hash=True)

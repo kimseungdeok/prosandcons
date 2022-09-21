@@ -89,14 +89,17 @@ def signup():
         'pw': request_dto.password,
         'gisu': request_dto.gisu,
         'ban': request_dto.ban,
+        'name': request_dto.name
     }
     db.users.insert_one(user)
     return render_template('prosandcons_register.j2', id=user['uuid'])
 
 
 def get_user_request_dto(hash_pw):
-    request_dto = dto.UserSignupRequestDto(request.form["id"], hash_pw, request.form["gisu"],
-                                           request.form["ban"], request.form["imgUrl"])
+    request_dto = dto.UserSignupRequestDto(
+        request.form["id"], hash_pw,
+        request.form["gisu"],request.form["ban"],
+        request.form["imgUrl"],request.form["name"])
     return request_dto
 
 
@@ -146,6 +149,7 @@ def get_cons_request_dto():
 @app.route('/users', methods=['GET'])
 def get_users():
     # 모든 User 불러오기 => 해당 유저의 UUID, 이름, 기수 불러오기
+    db.users
     # 해당
     return render_template('main.j2', current_time=now)
 
