@@ -269,7 +269,11 @@ def update_user():
         cons["first"], cons["second"], cons["third"], cons["fourth"], cons["fifth"],
     )
     if request.method == 'GET':
-        response = make_response(render_template("prosandcons_update.j2", pros=pros, cons=cons))
+        characters = list(db.characters.find({}, {'_id': False}))
+        characters_list = []
+        for character in characters:
+            characters_list.append(character['trait'].replace(u'\xa0', u''))
+        response = make_response(render_template("prosandcons_update.j2", pros=pros, cons=cons, characters = characters_list))
         return response
 
     update_request_dto = dto.UserUpdateRequestDto(request.form['pro_first'], request.form['pro_second'],
