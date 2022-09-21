@@ -12,6 +12,9 @@
         crossorigin="anonymous"></script>
     <!-- chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
 
 
         <style>
@@ -25,10 +28,11 @@
                 top: 30px;
                 left: 30px;
             }
-            .prosandcons{
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
+            #prosandcons{
+                
+                width: 700px;
+                height: 570px;
+                margin: 0 auto;
             }
         </style>
 
@@ -40,70 +44,86 @@
     <div class="container">
         <div class="header">
             <div class="back-button">
-                <a href="users.j2"><h1>←</h1></a>
+                <a href="/users"><h1>←</h1></a>
             </div>
             <div class="title">
                 <h1>OOO님의 장단점 결과 화면입니다.</h1>
             </div>
         </div>
     </div>
-    <div class="prosandcons">
-        <div class="pros" style="width: 500px; height: 500px">
-            <canvas id="pros-chart"></canvas>
-        </div>
-        <div class="cons" style="width: 500px; height: 500px">
-            <canvas id="cons-chart"></canvas>
-        </div>
+    <div id="prosandcons">
+        
     </div>
 
     <script>
-        new Chart(document.getElementById("pros-chart"), {
-        type: 'radar',
-        data: {
-        labels: ["적극적", "적극적", "적극적", "적극적", "적극적"],
-        datasets: [
-            {
-                label: "장점",
-                fill: true,
-                backgroundColor: "rgba(121, 183, 153, 0.2)",
-                borderColor: "rgba(121, 183, 153, 1)",
-                pointBorderColor: "#fff",
-                pointBackgroundColor: "rgba(121, 183, 153, 1)",
-                data: [5,3,1,2,4]
-            }
-        ]
-        },
-        options: {
-        title: {
-            display: true,
-            text: '장점'
-        }
-        }
-    });
-
-        new Chart(document.getElementById("cons-chart"), {
-            type: 'radar',
-            data: {
-            labels: ["급함", "급함", "급함", "급함", "급함"],
-            datasets: [
+        anychart.onDocumentReady(function () {
+            var data = [
                 {
-                    label: "단점",
-                    fill: true,
-                    backgroundColor: "rgba(255, 75, 82, 0.2)",
-                    borderColor: "rgba(255, 75, 82, 1)",
-                    pointBorderColor: "#fff",
-                    pointBackgroundColor: "rgba(255, 75, 82, 1)",
-                    data: [1,2,3,4,5]
+                    "x": "{{ data.first_pro }}",
+                    "value": 5,
+                    category: "장점"
+                },
+                {
+                    "x": "{{ data.second_pro }}",
+                    "value": 4,
+                    category: "장점"
+                },
+                {
+                    "x": "{{ data.third_pro }}",
+                    "value": 3,
+                    category: "장점"
+                },
+                {
+                    "x": "{{ data.fourth_pro }}",
+                    "value": 2,
+                    category: "장점"
+                }, {
+                    "x": "{{ data.fifth_pro }}",
+                    "value": 1,
+                    category: "장점"
+                },
+                {
+                    "x": "{{ data.first_con }}",
+                    "value": 5,
+                    category: "단점"
+                },
+                {
+                    "x": "{{ data.second_con }}",
+                    "value": 4,
+                    category: "단점"
+                },
+                {
+                    "x": "{{ data.third_con }}",
+                    "value": 3,
+                    category: "단점"
+                },
+                {
+                    "x": "{{ data.fourth_con }}",
+                    "value": 2,
+                    category: "단점"
+                }, {
+                    "x": "{{ data.fifth_con }}",
+                    "value": 1,
+                    category: "단점"
                 }
-            ]
-            },
-            options: {
-            title: {
-                display: true,
-                text: '단점'
-            }
-            }
+            ];
+            var chart = anychart.tagCloud(data);
+            // create and configure a color scale.
+            var customColorScale = anychart.scales.ordinalColor();
+            customColorScale.colors(["#79B799", "#FF4B52"]);
+
+            // set the color scale as the color scale of the chart
+            chart.colorScale(customColorScale);
+
+            // add a color range
+            chart.colorRange().enabled(true);
+            chart.angles([0,30,90]);
+            chart.container("prosandcons");
+            
+            chart.draw();
         });
-    </script>
+
+        </script>
+       
     </body>
 </html>

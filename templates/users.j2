@@ -28,6 +28,11 @@
               justify-content: space-between;
               background-color: white;
             }
+            .card img{
+              width: 100%;
+              height: 200px;
+              
+            }
             .title{
                 font-weight: bolder;
             }
@@ -47,6 +52,7 @@
               flex-direction: row;
             }
             .pros {
+                display: inline-block;
                 background-color:rgba(121, 183, 153, 0.5);
                 color: black;
                 font-size: 15px;
@@ -54,8 +60,10 @@
                 padding-left: 13px;
                 padding-right: 13px;
                 border-radius: 8px;
+                margin-bottom: 9px;
             }
             .cons {
+                display: inline-block;
                 background-color: rgba(255, 75, 82, 0.5);
                 color: black;
                 font-size: 15px;
@@ -63,31 +71,32 @@
                 padding-left: 13px;
                 padding-right: 13px;
                 border-radius: 8px;
+
             }
         </style>
         <script>
 
-            function makeCard(resultUrl, name, ban, first_pro, second_pro, first_con, second_con){
-            let card_html = `
-            <div class="card" style=" cursor: pointer;" onclick= "location.href='';">
-                  <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <div class="card-top">
-                      <h5 class="card-title">${name}</h5>
-                      <!-- 반 적용 -->
-                      <h6 class="ban">${ban}</h6>
-                    </div>
+          //   function makeCard(uuid, imgUrl, name, ban, first_pro, second_pro, first_con, second_con){
+          //   let card_html = `
+          //   <div class="card" style=" cursor: pointer;" onclick="location.href='http://127.0.0.1:5000/user/${uuid}'"">
+          //         <img src=${imgUrl} class="card-img-top" alt="...">
+          //         <div class="card-body">
+          //           <div class="card-top">
+          //             <h5 class="card-title">${name}</h5>
+          //             <!-- 반 적용 -->
+          //             <h6 class="ban">${ban}</h6>
+          //           </div>
 
-                    <p class="card-text">
-                        <span class="pros">${first_pro}</span>
-                        <span class="pros">${second_pro}</span>
-                        <span class="cons">${first_con}</span>
-                        <span class="cons">${second_con}</span>
-                    </p>
-                  </div>
-                </div>
-            `
-          }
+          //           <p class="card-text">
+          //               <span class="pros">${first_pro}</span>
+          //               <span class="pros">${second_pro}</span>
+          //               <span class="cons">${first_con}</span>
+          //               <span class="cons">${second_con}</span>
+          //           </p>
+          //         </div>
+          //       </div>
+          //   `
+          // }
         </script>
     <title>
     prosandcons
@@ -111,23 +120,43 @@
               </div>
             </div>
             <div class="card-columns">
-                <div class="card" onclick="location.href='http://127.0.0.1:5000/user/{{user_list[0].uuid}}'">
+                <!-- <div class="card" onclick="location.href='http://127.0.0.1:5000/user/{{user_list[0].uuid}}'">
                   <img src="https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png" class="card-img-top" alt="...">
                   <div class="card-body">
                     <div class="card-top">
                       <h5 class="card-title">{{ user_list[0].name }}</h5>
-                      <!-- 반 적용 -->
+                      
                       <h6 class="ban">{{ user_list[0].ban }}반</h6> 
                     </div>
 
                     <p class="card-text">
-                      <span class="pros">{{ user_list[0].first_pro }}</span>
-                      <span class="pros">{{ user_list[0].second_pro }}</span>
-                      <span class="cons">{{ user_list[0].first_con }}</span>
-                      <span class="cons">{{ user_list[0].second_con }}</span>
+                      <span class="pros">dddd</span>
+                      <span class="pros">dddd</span>
+                      <span class="cons">ddddd</span>
+                      <span class="cons">ddddd</span>
                   </p>
                   </div>
+                </div> -->
+                {% for card in user_list %} 
+                 <div class="card" style=" cursor: pointer;" onclick="location.href='http://127.0.0.1:5000/user/{{card.uuid}}'"">
+                  <img src={{ card.imgUrl }} class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <div class="card-top">
+                      <h5 class="card-title">{{card.name}}</h5>
+                      <!-- 반 적용 -->
+                      <h6 class="ban">{{card.ban}}반</h6>
+                    </div>
+
+                    <p class="card-text">
+                        <span class="pros">{{card.first_pro}}</span>
+                        <span class="pros">{{card.second_pro}}</span>
+                        <span class="cons">{{card.first_con}}</span>
+                        <span class="cons">{{card.second_con}}</span>
+                    </p>
+                  </div>
                 </div>
+                  
+                {% endfor %}
             </div>
         </div>
     </body>
