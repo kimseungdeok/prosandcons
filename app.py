@@ -223,7 +223,6 @@ def get_user_detail(id):
         "fifth": 1,
     }):
         response_dto.set_cons(x["first"], x["second"], x["third"], x["fourth"], x["fifth"])
-    print(response_dto)
     return render_template('result.j2', data=response_dto)
 
 
