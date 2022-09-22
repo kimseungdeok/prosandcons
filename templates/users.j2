@@ -63,7 +63,7 @@
             .division{
               display: flex;
               justify-content: center;
-              border: 1px solid lightgray;
+              
               border-radius: 5px;
               padding: 10px;
               margin-bottom: 20px;
@@ -72,10 +72,10 @@
               margin-left: 5px;
             }
             .aBan-btn {
-              background-color: rgb(255, 75, 82);
+              background-color: lightgray;
             }
             .bBan-btn {
-              background-color:rgb(121, 183, 153);
+              background-color: lightblue;
             }
             .main-btn-group{
               display: flex;
@@ -103,6 +103,26 @@
                 border-radius: 8px;
                 margin-bottom: 9px;
             }
+            .first_pro{
+              background-color:rgba(121, 183, 153, 0.8);
+            }
+            .second_pro{
+              background-color:rgba(121, 183, 153, 0.5);
+            }
+            .third_pro{
+              background-color:rgba(121, 183, 153, 0.3);
+            }
+
+            .first_con{
+              background-color: rgba(255, 75, 82, 0.8);
+            }
+            .second_con{
+              background-color: rgba(255, 75, 82, 0.5);
+            }
+            .third_con{
+              background-color: rgba(255, 75, 82, 0.3);
+            }
+            
         </style>
         
     <title>
@@ -145,12 +165,14 @@
 
                     <p class="card-text">
                       <div class="">
-                        <span class="pros">{{card.first_pro}}</span>
-                        <span class="pros">{{card.second_pro}}</span>
+                        <span class="pros first_pro">{{card.first_pro}}</span>
+                        <span class="pros second_pro">{{card.second_pro}}</span>
+                        <span class="pros third_pro">{{card.third_pro}}</span>
                       </div>
                       <div class="">
-                        <span class="cons">{{card.first_con}}</span>
-                        <span class="cons">{{card.second_con}}</span>
+                        <span class="cons first_con">{{card.first_con}}</span>
+                        <span class="cons second_con">{{card.second_con}}</span>
+                        <span class="cons third_con">{{card.third_con}}</span>
                       </div>
                     </p>
                   </div>
