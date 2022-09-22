@@ -139,6 +139,7 @@
             <div class="pick-comment center">
                 아래의 키워드를 누르면 복사가 됩니다.
                 원하는 키워드를 눌러 붙여넣어보세요!
+                <button onclick="random()">랜덤</button>
             </div>
             <div class="pick-prosandcons">
                 {% for x in range(35) %}
@@ -214,5 +215,15 @@
                 
             });
         };
+
+
+        function random(){
+            pickBtns.innerHTML += `
+            {% for x in range(35) %}
+                    <div class="pick-button" style="cursor: pointer;">{{ characters[range(0,263) | random] }}</div>
+                {% endfor %}
+            `
+            
+        }
     </script>
 </html>
