@@ -37,6 +37,7 @@ class UserResponseDto:
     uuid: str
     ban: int
     name: str
+    gisu: str
     imgUrl: str
     first_pro: str
     second_pro: str

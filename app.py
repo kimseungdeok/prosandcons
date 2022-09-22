@@ -213,9 +213,9 @@ def get_users():
     global user_response_dto
     target_uuid_list = []
     user_dto_list = []
-    for x in db.users.find({}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
+    for x in db.users.find({}, {"uuid": 1, "gisu": 1, "ban": 1, "name": 1, "imgUrl": 1}):
         target_uuid_list.append(x["uuid"])
-        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x['gisu'], x["imgUrl"], "", "", "", "")
         user_dto_list.append(user_response_dto)
 
     current_users_num = len(target_uuid_list)
@@ -273,7 +273,8 @@ def update_user():
         characters_list = []
         for character in characters:
             characters_list.append(character['trait'].replace(u'\xa0', u''))
-        response = make_response(render_template("prosandcons_update.j2", pros=pros, cons=cons, characters = characters_list))
+        response = make_response(
+            render_template("prosandcons_update.j2", pros=pros, cons=cons, characters=characters_list))
         return response
 
     update_request_dto = dto.UserUpdateRequestDto(request.form['pro_first'], request.form['pro_second'],
