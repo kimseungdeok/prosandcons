@@ -43,15 +43,10 @@
                 width: 100%;
                 
             }
-            .pros-group{
-                display: flex;
-                flex-direction: row;
-            }
-            .cons-group{
-                display: flex;
-                flex-direction: row;
-            }
+            
+            
             .pick-button {
+                background-color: rgba(177, 28, 110, 0.5);
                 padding: 5px;
                 padding-left: 8px;
                 padding-right: 8px;
@@ -65,12 +60,6 @@
             }
             .row {
                 padding-top: 30px;
-            }
-            .pros {
-                background-color: rgba(121, 183, 153, 0.8);;
-            }
-            .cons {
-                background-color: rgba(255, 75, 82, 0.8);
             }
             .edit-btn {
                 margin-top: 30px;
@@ -145,26 +134,9 @@
                 원하는 키워드를 눌러 붙여넣어보세요!
             </div>
             <div class="pick-prosandcons">
-                    <div class="pros-group">
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[1] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[2] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[3] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[4] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[5] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[6] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[7] }}</div>
-                    <div class="pros pick-button" style="cursor: pointer;">{{ characters[8] }}</div>
-                </div>  
-                <div class="cons-group">
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[9] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[10] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[11] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[12] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[13] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[14] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[15] }}</div>
-                    <div class="cons pick-button" style="cursor: pointer;">{{ characters[16] }}</div>
-                </div>
+                {% for x in range(35) %}
+                    <div class="pick-button" style="cursor: pointer;"{{ characters[range(0,263) | random] }}</div>
+                {% endfor %}
             </div>
         </div>
         <form action="update" method="post">
@@ -232,7 +204,7 @@
         console.log(e.target)
             window.navigator.clipboard.writeText(e.target.textContent).then(() => {
                 // 복사가 완료되면 호출된다.
-                alert("복사완료");
+                
             });
         };
     </script>
