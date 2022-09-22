@@ -215,15 +215,16 @@ def get_users():
     user_dto_list = []
     for x in db.users.find({}, {"uuid": 1, "gisu": 1, "ban": 1, "name": 1, "imgUrl": 1}):
         target_uuid_list.append(x["uuid"])
-        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x['gisu'], x["imgUrl"], "", "", "", "")
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x['gisu'], x["imgUrl"],
+                                                "", "", "", "", "", "")
         user_dto_list.append(user_response_dto)
 
     current_users_num = len(target_uuid_list)
     for i in range(current_users_num):
-        for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
-            user_dto_list[i].set_pros(x["first"], x["second"])
-        for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1}):
-            user_dto_list[i].set_cons(x["first"], x["second"])
+        for x in db.pros.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1, "third": 1}):
+            user_dto_list[i].set_pros(x["first"], x["second"], x["third"])
+        for x in db.cons.find({"id": target_uuid_list[i]}, {"first": 1, "second": 1, "third": 1}):
+            user_dto_list[i].set_cons(x["first"], x["second"], x["third"])
 
     return render_template('users.j2', user_list=user_dto_list)
 
