@@ -54,8 +54,8 @@
             .division{
               display: flex;
               justify-content: center;
-              border: 1px solid black;
-              border-radius: 10px;
+              border: 1px solid lightgray;
+              border-radius: 5px;
               padding: 10px;
               margin-bottom: 20px;
             }
@@ -118,8 +118,8 @@
               </div>
             </div>
             <div class="division">
-              <button type="button" class="btn aBan-btn">A반</button>
-              <button type="button" class="btn bBan-btn">B반</button>
+              <button type="button" class="btn aBan-btn" onclick="location.href='/users/A'">A반</button>
+              <button type="button" class="btn bBan-btn" onclick="location.href='/users/B'">B반</button>
             </div>
             <div class="card-columns">
                 {% for card in user_list %}
