@@ -41,19 +41,23 @@ class UserResponseDto:
     imgUrl: str
     first_pro: str
     second_pro: str
+    third_pro: str
     first_con: str
     second_con: str
+    third_con: str
 
     def set_img_url(self, url):
         self.imgUrl = url
 
-    def set_pros(self, first, second):
+    def set_pros(self, first, second,third):
         self.first_pro = first
         self.second_pro = second
+        self.third_pro = third
 
-    def set_cons(self, first, second):
+    def set_cons(self, first, second,third):
         self.first_con = first
         self.second_con = second
+        self.third_con = third
 
 
 @dc.dataclass(unsafe_hash=True)
