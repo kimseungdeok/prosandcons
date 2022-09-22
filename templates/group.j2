@@ -21,7 +21,7 @@
             .container {
                 display: flex;
                 justify-content: center;
-                padding-top: 12%;
+                padding-top: 5%;
             }
             .back-button{
                 position: absolute;
@@ -34,6 +34,67 @@
                 height: 570px;
                 margin: 0 auto;
             }
+            .card-top {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              background-color: white;
+            }
+
+            .gisuBan{
+              display : flex;
+              flex-direction: row;
+              
+            }
+            .gisu{
+              padding-right:5px;
+            }
+            .card img{
+              width: 100%;
+              height: 200px;
+              
+            }
+            .pros {
+                display: inline-block;
+                background-color:rgba(121, 183, 153, 0.5);
+                color: black;
+                font-size: 15px;
+                padding: 5px;
+                padding-left: 13px;
+                padding-right: 13px;
+                border-radius: 8px;
+                margin-bottom: 9px;
+            }
+            .cons {
+                display: inline-block;
+                background-color: rgba(255, 75, 82, 0.5);
+                color: black;
+                font-size: 15px;
+                padding: 5px;
+                padding-left: 13px;
+                padding-right: 13px;
+                border-radius: 8px;
+                margin-bottom: 9px;
+            }
+            .first_pro{
+              background-color:rgba(121, 183, 153, 0.8);
+            }
+            .second_pro{
+              background-color:rgba(121, 183, 153, 0.5);
+            }
+            .third_pro{
+              background-color:rgba(121, 183, 153, 0.3);
+            }
+
+            .first_con{
+              background-color: rgba(255, 75, 82, 0.8);
+            }
+            .second_con{
+              background-color: rgba(255, 75, 82, 0.5);
+            }
+            .third_con{
+              background-color: rgba(255, 75, 82, 0.3);
+            }
     </style>
     <title>
         prosandcons - 결과 페이지
@@ -43,16 +104,51 @@
   
 
     <div class="container">
+    
         <div class="header">
             <div class="back-button">
                 <a href="/users"><h1>←</h1></a>
             </div>
-            
-            
         </div>
+       
+      <div id="prosandcons">
+        
+      </div>
+      
+
     </div>
-    <div id="prosandcons">
-    
+    <div class="container">
+    <div class="card-columns">
+                {% for card in user_list %}
+                 <div class="card" style=" cursor: pointer;" onclick="location.href='user/{{card.uuid}}'">
+                  <img src={{ card.imgUrl }} class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <div class="card-top">
+                      <h5 class="card-title">{{card.name}}</h5>
+                      <div class="gisuBan">
+                        <h6 class="gisu">{{card.gisu}}기</h6>
+                        <h6 class="ban">{{card.ban}}반</h6>
+                      </div>
+                    </div>
+
+                    <p class="card-text">
+                      <div class="">
+                        <span class="pros first_pro">{{card.first_pro}}</span>
+                        <span class="pros second_pro">{{card.second_pro}}</span>
+                        <span class="pros third_pro">{{card.third_pro}}</span>
+                      </div>
+                      <div class="">
+                        <span class="cons first_con">{{card.first_con}}</span>
+                        <span class="cons second_con">{{card.second_con}}</span>
+                        <span class="cons third_con">{{card.third_con}}</span>
+                      </div>
+                    </p>
+                  </div>
+                </div>
+                  
+                {% endfor %}
+        </div>
+        </div>
 
    <script>
     let pros = {{ pros }}
