@@ -338,7 +338,7 @@ def get_user_class(group):
     user_dto_list = []
     for x in db.users.find({"ban": group}, {"uuid": 1, "ban": 1, "name": 1, "imgUrl": 1}):
         target_uuid_list.append(x["uuid"])
-        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], x["imgUrl"], "", "", "", "")
+        user_response_dto = dto.UserResponseDto(x["uuid"], x["ban"], x["name"], "", x["imgUrl"], "", "", "", "")
         user_dto_list.append(user_response_dto)
 
     current_users_num = len(target_uuid_list)
