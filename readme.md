@@ -40,13 +40,12 @@
 <img alt="css" img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img alt="bootstrap" img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
 <img alt="Javascript" src ="https://img.shields.io/badge/Javascript-F7DF1E.svg?&style=for-the-badge&logo=Javascript&logoColor=white"/>
-<img alt="Amazon EC2" img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=aws&logoColor=white">
-<img alt="Jinja" img src="https://img.shields.io/badge/Jinja-B41717?style=for-the-badge&logo=aws&logoColor=white">
-<img alt="Flask" src ="https://img.shields.io/badge/Flask-000000.svg?&style=for-the-badge&logo=Javascript&logoColor=white"/>
+<img alt="Flask" img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=aws&logoColor=white">
 <img alt="jinja" img src="https://img.shields.io/badge/jinja-B41717?style=for-the-badge&logo=aws&logoColor=white">
 <img alt="MongoDB" img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=aws&logoColor=white">
-<img alt="jinja" img src="https://img.shields.io/badge/jinja-569A31?style=for-the-badge&logo=aws&logoColor=white">
-<img alt="NGINX" img src="https://img.shields.io/badge/NGINX-009639style=for-the-badge&logo=aws&logoColor=white">
+<img alt="NGINX" img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=aws&logoColor=white">
 <img alt="Docker" img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=aws&logoColor=white">
+<img alt="Amazon EC2" img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=aws&logoColor=white">
+<img alt="Amazon S3" img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=aws&logoColor=white">
 </div>
 
