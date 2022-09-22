@@ -10,22 +10,98 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
+
+            <!-- chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+    
+    
+    <style>
+            .container {
+                display: flex;
+                justify-content: center;
+                padding-top: 12%;
+            }
+            .back-button{
+                position: absolute;
+                top: 30px;
+                left: 30px;
+            }
+            #prosandcons{
+                
+                width: 700px;
+                height: 570px;
+                margin: 0 auto;
+            }
+    </style>
     <title>
-    group
+        prosandcons - 결과 페이지
     </title>
     </head>
     <body>
-    <div>
-        {{ pros.keys() }}
+  
+
+    <div class="container">
+        <div class="header">
+            <div class="back-button">
+                <a href="/users"><h1>←</h1></a>
+            </div>
+            
+            
+        </div>
     </div>
-    <div>
-        {{ pros.values() }}
-    </div>
-    <div>
-        {{ cons.keys() }}
-    </div>
-    <div>
-        {{ cons.values() }}
-    </div>
+    <div id="prosandcons">
+    
+
+   <script>
+    let pros = {{ pros }}
+    pros_keys = Object.keys(pros)
+    pros_values = Object.values(pros)
+
+    let cons = {{ cons }}
+    cons_keys = Object.keys(cons)
+    cons_values = Object.values(cons)
+ 
+    
+   anychart.onDocumentReady(function () {
+            var data = [
+                
+            ];
+
+            for(n in pros_keys){
+                data.push({
+                            "x": pros_keys[n],
+                            "value": pros_values[n],
+                            category: "장점"
+                            })
+            }
+
+            for(n in cons_keys){
+                data.push({
+                            "x": cons_keys[n],
+                            "value": cons_values[n],
+                            category: "단점"
+                            })
+            }
+
+
+            var chart = anychart.tagCloud(data);
+            // create and configure a color scale.
+            var customColorScale = anychart.scales.ordinalColor();
+            customColorScale.colors(["#79B799", "#FF4B52"]);
+
+            // set the color scale as the color scale of the chart
+            chart.colorScale(customColorScale);
+
+            // add a color range
+            chart.colorRange().enabled(true);
+            chart.angles([0,30,90]);
+            chart.container("prosandcons");
+            
+            chart.draw();
+        });
+
+    </script>
     </body>
 </html>
