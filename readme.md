@@ -50,6 +50,7 @@
 </div>
 
 ## 6. 시연 영상
-![화면 기록 2022-09-26 오후 3 58 14](https://user-images.githubusercontent.com/81807434/192213776-47036eb5-1b30-470d-9540-73061ef21b7e.gif)
+![화면 기록 2022-09-26 오후 4 07 29](https://user-images.githubusercontent.com/81807434/192214519-99d2b223-882e-496d-bc65-6c1f72b88589.gif)
+
 
 
