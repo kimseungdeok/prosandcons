@@ -49,3 +49,6 @@
 <img alt="Amazon S3" img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=aws&logoColor=white">
 </div>
 
+## 6. 시연 영상
+![화면 기록 2022-09-26 오후 3 58 14](https://user-images.githubusercontent.com/81807434/192213440-7b6e7bc1-4871-4c74-b758-0c64a611838d.gif)
+
